@@ -1,0 +1,18 @@
+{
+  "frontendFolder": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/./frontend/generated/jar-resources",
+  "staticOutput": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\Users\\wisni\\JavaProjects\\REST API\\ScoreGoat-Vaadin\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\Users\\wisni\\JavaProjects\\REST API\\ScoreGoat-Vaadin\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/src/main/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/src/main/dev-bundle/config",
+  "jarResourcesFolder": "C:/Users/wisni/JavaProjects/REST API/ScoreGoat-Vaadin/./frontend/generated/jar-resources",
+  "generatedFlowImportsFolder": "target/frontend",
+  "themeName": "",
+  "clientServiceWorkerSource": "C:\\Users\\wisni\\JavaProjects\\REST API\\ScoreGoat-Vaadin\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
