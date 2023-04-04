@@ -25,7 +25,10 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+**/out/
+**/build/
+node_modules/
+target/frontend/
 
 ### NetBeans ###
 /nbproject/private/
