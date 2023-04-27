@@ -14,7 +14,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class MatchView extends VerticalLayout {
-    private Long matchID;
+    private Long fixtureId;
     private Label date = new Label();
     private Label time = new Label();
     private Label status = new Label();
@@ -25,7 +25,7 @@ public class MatchView extends VerticalLayout {
 
     public MatchView(Match match, MainView mainView) {
         setSpacing(false);
-        matchID = match.getId();
+        fixtureId = match.getFixtureId();
         HorizontalLayout maineLayout = new HorizontalLayout();
         HorizontalLayout homeTeamLayout = new HorizontalLayout();
         VerticalLayout centerLayout = new VerticalLayout();
@@ -118,7 +118,7 @@ public class MatchView extends VerticalLayout {
                 predictions = "";
             }
         }
-        matchList.put(matchID, predictions);
+        matchList.put(fixtureId, predictions);
     }
 
     private void awayButtonClick (Map<Long,String> matchList) {
@@ -146,6 +146,6 @@ public class MatchView extends VerticalLayout {
                 predictions = "";
             }
         }
-        matchList.put(matchID, predictions);
+        matchList.put(fixtureId, predictions);
     }
 }
