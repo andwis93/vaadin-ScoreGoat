@@ -1,11 +1,11 @@
 package com.vaadin.scoregoatvaadin.client;
 
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.scoregoatvaadin.config.ScoreGoatApiConfig;
 import com.vaadin.scoregoatvaadin.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +14,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,64 +23,72 @@ public class ScoreGoatClient {
     private final RestTemplate restTemplate;
     private final ScoreGoatApiConfig apiConfig;
 
-    private URI createUriForCreateUser() {
-        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
-                        "/users")
+    private URI createUri() {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint())
                 .build().encode().toUri();
+    }
+
+    public UserRespondDto logIn(UserParamDto userparam){
+        try {
+            return restTemplate.postForObject(createUri() + "/login", userparam, UserRespondDto.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     public UserRespondDto createUser(UserDto userDto){
         try {
-            return restTemplate.postForObject(createUriForCreateUser(), userDto, UserRespondDto.class);
+            return restTemplate.postForObject(createUri() + "/users", userDto, UserRespondDto.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
         }
-    }
-
-    private URI createUriForLogIn() {
-        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
-                        "/login")
-                .build().encode().toUri();
-    }
-    public UserRespondDto logIn(UserParamDto userparam){
-        try {
-            return restTemplate.postForObject(createUriForLogIn(), userparam, UserRespondDto.class);
-        } catch (RestClientException e) {
-            LOGGER.error(e.getMessage(), e);
-            return null;
-        }
-    }
-
-    private URI createUriForPasswordChange() {
-        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
-                        "/users/passwordchange")
-                .build().encode().toUri();
     }
 
     public UserRespondDto changePassword(PasswordDto passwordDto){
         try {
-            return restTemplate.postForObject(createUriForPasswordChange(), passwordDto, UserRespondDto.class);
+            return restTemplate.postForObject(createUri() + "/users/passwordchange", passwordDto, UserRespondDto.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
         }
     }
 
-    private URI createUriForMatches(int leagueId) {
+    public UserRespondDto changeAccountValues(AccountDto accountDto){
+        try {
+            return restTemplate.postForObject(createUri() + "/users/accountchange", accountDto, UserRespondDto.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    private URI createUriForMatches(Long userId, int leagueId) {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
                         "/match")
-                .queryParam("id", leagueId)
+                .queryParam("userId", userId)
+                .queryParam("leagueId", leagueId)
                 .build().encode().toUri();
     }
 
-    public List<Match> getMatchesByLeagueId(int leagueId){
+    public List<Match> getMatchesByLeagueId(long userId, int leagueId){
         try {
             return Arrays.stream(Objects.requireNonNull(
-                    restTemplate.getForObject(createUriForMatches(leagueId), Match[].class))).collect(Collectors.toList());
+                    restTemplate.postForObject(createUriForMatches(userId, leagueId), null, Match[].class))).collect(Collectors.toList());
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return List.of();
+        }
+    }
+
+    public NotificationRespond saveUserPredictions(PredictionDto predictionDto){
+        try {
+          return restTemplate.postForObject(createUri() + "/prediction", predictionDto, NotificationRespond.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new NotificationRespond("Something Went Wrong - couldn't save predictions",
+                    NotificationVariant.LUMO_ERROR.getVariantName());
         }
     }
 }

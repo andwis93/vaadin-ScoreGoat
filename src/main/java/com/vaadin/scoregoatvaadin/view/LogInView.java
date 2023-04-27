@@ -29,6 +29,7 @@ public class LogInView extends VerticalLayout {
         setSizeUndefined();
         getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
         setHeight("350em");
+
         add(
                 setElements()
         );
@@ -84,6 +85,7 @@ public class LogInView extends VerticalLayout {
     private void logInExecution(UserRespondDto respond) {
         mainView.setUser(userManager.setUser(respond));
         mainView.remove(this);
+        mainView.getMatchesLayout().removeAll();
         toolBarView.getUserLabel().setText(respond.getUserName());
         toolBarView.getLogButton().setText(Names.LOG_OUT.getValue());
         toolBarView.getYourAccount().setEnabled(true);

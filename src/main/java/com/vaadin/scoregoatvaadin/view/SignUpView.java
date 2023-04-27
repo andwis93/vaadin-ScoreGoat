@@ -1,8 +1,9 @@
 package com.vaadin.scoregoatvaadin.view;
 
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -23,7 +24,6 @@ public class SignUpView extends VerticalLayout {
     private final Button create = new Button(Names.SIGN_UP.getValue());
     private final Button close = new Button(Names.CLOSE.getValue());
     private final Label info = new Label();
-    private final UserManager userManager = new UserManager();
     private final ElementManager elements = new ElementManager();
     private final MainView mainView;
     private final ToolBarView toolBarView;
@@ -34,13 +34,13 @@ public class SignUpView extends VerticalLayout {
         setSizeUndefined();
         setHeight("350em");
         getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+
+        create.addClickListener(event -> signIn());
+        close.addClickListener(event -> mainView.remove(this));
+
         add(
                 setElements()
         );
-        close.addClickListener(event -> mainView.remove(this));
-        create.addClickListener(event -> {
-               signIn();
-        });
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
@@ -51,8 +51,6 @@ public class SignUpView extends VerticalLayout {
         elements.setSideMenuButtonAccept(create);
         elements.setSideMenuButtonClose(close);
         elements.setInfoErrorLabel(info);
-        create.addClickShortcut(Key.ENTER);
-        close.addClickShortcut(Key.ESCAPE);
         vl.add (
                 name,
                 email,
@@ -85,17 +83,9 @@ public class SignUpView extends VerticalLayout {
     }
 
     private void signInExecute(UserRespondDto respond){
-        info.setText(respond.getRespond());
-        info.getStyle().set("color", TeamValues.RED.getValues());
-        toolBarView.getUserLabel().setText(respond.getUserName());
-        toolBarView.getLogButton().setText(Names.LOG_OUT.getValue());
-        toolBarView.getLogButton().getStyle().set("background", TeamValues.DARK_SALMON.getValues());
-        toolBarView.getYourAccount().setEnabled(true);
-        mainView.getElements().setGeneralButton(toolBarView.getYourAccount());
-        mainView.setUser(userManager.setUser(respond));
+        mainView.remove(this);
+        Notification notification = Notification.show(respond.getRespond());
+        notification.setPosition(Notification.Position.MIDDLE);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
-
-//    public SignUpView setSignInView() {
-//        return mainView.getSignUpView() = new SignUpView(mainView);
-//    }
 }

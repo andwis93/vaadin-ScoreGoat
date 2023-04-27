@@ -3,15 +3,13 @@ package com.vaadin.scoregoatvaadin.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-public class AccountDto {
+public class MatchPredictionDto {
+    private Long id;
+    private String whoWin;
     private Long userId;
-    private String userName;
-    private String email;
-    private String password;
+    private Long matchId;
 }

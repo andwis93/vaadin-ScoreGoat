@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class AccountDto {
+public class PredictionDto {
     private Long userId;
-    private String userName;
-    private String email;
-    private String password;
+    private Map<Long,String> matchSelections;
 }

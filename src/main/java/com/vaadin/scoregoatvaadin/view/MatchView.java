@@ -9,20 +9,23 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Map;
 
 @Getter
 @Setter
 public class MatchView extends VerticalLayout {
+    private Long matchID;
     private Label date = new Label();
     private Label time = new Label();
     private Label status = new Label();
     private Button home = new Button();
     private Button away = new Button();
     private ImageManager imgMng = new ImageManager();
-    private char predictions = ' ';
+    private String predictions = "";
 
-    public MatchView(Match match) {
+    public MatchView(Match match, MainView mainView) {
         setSpacing(false);
+        matchID = match.getId();
         HorizontalLayout maineLayout = new HorizontalLayout();
         HorizontalLayout homeTeamLayout = new HorizontalLayout();
         VerticalLayout centerLayout = new VerticalLayout();
@@ -57,13 +60,13 @@ public class MatchView extends VerticalLayout {
 
         maineLayout.add(homeTeamVL, centerLayout, awayTeamVL);
         maineLayout.setAlignItems(Alignment.CENTER);
-        maineLayout.getStyle().set("background", TeamValues.WHITE.getValues());
+        maineLayout.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
 
         add(maineLayout);
-        getStyle().set("background", TeamValues.DARK_GRAY.getValues());
+        getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
 
-        home.addClickListener(event -> homeButtonClick());
-        away.addClickListener(event -> awayButtonClick());
+        home.addClickListener(event -> homeButtonClick(mainView.getMatchList().getMatchList()));
+        away.addClickListener(event -> awayButtonClick(mainView.getMatchList().getMatchList()));
     }
 
     private void setTeamButton(Button button, String team){
@@ -73,7 +76,8 @@ public class MatchView extends VerticalLayout {
         button.getStyle().set("color", TeamValues.BLACK.getValues());
         button.getStyle().set("font-size", TeamValues.PX_36.getValues());
         button.getStyle().set("font-weight", TeamValues.BOLD.getValues());
-        button.getStyle().set("background", TeamValues.WHITE.getValues());
+        button.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+        button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 
     private void setDataTimeElements() {
@@ -88,60 +92,60 @@ public class MatchView extends VerticalLayout {
         status.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
     }
 
-    private void homeButtonClick () {
+    private void homeButtonClick (Map<Long,String> matchList) {
         switch (predictions) {
-            case ' ' -> {
-                home.getStyle().set("background", TeamValues.LIGHT_BLUE.getValues());
-                predictions = 'H';
+            case "" -> {
+                home.getStyle().set("background", TeamValues. LIGHT_BLUE.getValues());
+                predictions = "home";
             }
-            case 'H' -> {
-                home.getStyle().set("background", TeamValues.WHITE.getValues());
-                predictions = ' ';
+            case "home" -> {
+                home.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "";
             }
-            case 'A' -> {
+            case "away" -> {
                 home.getStyle().set("background", TeamValues.ORANGE.getValues());
                 away.getStyle().set("background", TeamValues.ORANGE.getValues());
-                predictions = 'D';
+                predictions = "draw";
             }
-            case 'D' -> {
-                home.getStyle().set("background", TeamValues.LIGHT_BLUE.getValues());
-                away.getStyle().set("background", TeamValues.WHITE.getValues());
-                predictions = 'H';
+            case "draw" -> {
+                home.getStyle().set("background", TeamValues. LIGHT_BLUE.getValues());
+                away.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "home";
             }
             default -> {
-                home.getStyle().set("background", TeamValues.WHITE.getValues());
-                away.getStyle().set("background", TeamValues.WHITE.getValues());
-
-                predictions = ' ';
+                home.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                away.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "";
             }
         }
+        matchList.put(matchID, predictions);
     }
 
-    private void awayButtonClick () {
+    private void awayButtonClick (Map<Long,String> matchList) {
         switch (predictions) {
-            case ' ' -> {
-                away.getStyle().set("background", TeamValues.LIGHT_BLUE.getValues());
-                predictions = 'A';
+            case "" -> {
+                away.getStyle().set("background", TeamValues. LIGHT_BLUE.getValues());
+                predictions = "away";
             }
-            case 'A' -> {
-                away.getStyle().set("background", TeamValues.WHITE.getValues());
-                predictions = ' ';
+            case "away" -> {
+                away.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "";
             }
-            case 'H' -> {
+            case "home" -> {
                 away.getStyle().set("background", TeamValues.ORANGE.getValues());
                 home.getStyle().set("background", TeamValues.ORANGE.getValues());
-                predictions = 'D';
+                predictions = "draw";
             }
-            case 'D' -> {
+            case "draw" -> {
                 away.getStyle().set("background", TeamValues.LIGHT_BLUE.getValues());
-                home.getStyle().set("background", TeamValues.WHITE.getValues());
-                predictions = 'A';
+                home.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "away";
             }
             default -> {
-                home.getStyle().set("background", TeamValues.WHITE.getValues());
-                away.getStyle().set("background", TeamValues.WHITE.getValues());
-                predictions = ' ';
+                home.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
+                predictions = "";
             }
         }
+        matchList.put(matchID, predictions);
     }
 }

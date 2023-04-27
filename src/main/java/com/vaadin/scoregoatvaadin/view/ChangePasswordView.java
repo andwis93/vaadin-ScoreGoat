@@ -73,11 +73,4 @@ public class ChangePasswordView extends VerticalLayout {
         elements.setInfoLabel(info);
         this.setVisible(false);
     }
-    public void changePasswordExecute(){
-        mainView.add(setChangePasswordView());
-    }
-
-    public ChangePasswordView setChangePasswordView() {
-        return mainView.getChangePasswordView();
-    }
 }

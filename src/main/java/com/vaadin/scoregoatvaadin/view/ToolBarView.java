@@ -28,13 +28,17 @@ public class ToolBarView extends HorizontalLayout {
                 setToolbar()
         );
         logButton.addClickListener(event -> {
-            mainView.remove(mainView.getSignUpView());
-            mainView.remove(mainView.getSignUpView());
-            mainView.remove(mainView.getAccountView());
+            removeViews();
             mainView.remove(mainView.getChangePasswordView());
             logButtonExecute();
         });
-        yourAccount.addClickListener(event ->mainView.add(mainView.setAccountView()));
+        yourAccount.addClickListener(event -> {
+            removeViews();
+            mainView.add(mainView.setAccountView());
+            mainView.getAccountView().getName().setValue(mainView.getUser().getName());
+            mainView.getAccountView().getEmail().setValue(mainView.getUser().getEmail());
+
+        });
     }
 
     private HorizontalLayout setToolbar() {
@@ -48,7 +52,7 @@ public class ToolBarView extends HorizontalLayout {
         endComponent.setWidthFull();
         main.setWidthFull();
         main.add(startComponent, centerComponent, endComponent);
-        main.getStyle().set("background", TeamValues.LIGHT_GREY.getValues());
+        main.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
         elements.setPositionLabel(position);
         return main;
     }
@@ -82,5 +86,11 @@ public class ToolBarView extends HorizontalLayout {
         } else {
             logOutExecute();
         }
+    }
+    private void removeViews() {
+        mainView.remove(mainView.getLoginView());
+        mainView.remove(mainView.getSignUpView());
+        mainView.remove(mainView.getAccountView());
+        mainView.remove(mainView.getChangePasswordView());
     }
 }

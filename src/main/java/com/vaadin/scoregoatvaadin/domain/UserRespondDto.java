@@ -20,12 +20,4 @@ public class UserRespondDto {
     private String oldPassword;
     private String newPassword;
     private String repeatPassword;
-
-    public UserRespondDto(Long id, String respond, String oldPassword, String newPassword, String repeatPassword) {
-        this.id = id;
-        this.respond = respond;
-        this.oldPassword = oldPassword;
-        this.newPassword = newPassword;
-        this.repeatPassword = repeatPassword;
-    }
 }

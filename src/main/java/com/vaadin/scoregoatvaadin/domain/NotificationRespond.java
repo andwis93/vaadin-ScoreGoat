@@ -9,9 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AccountDto {
-    private Long userId;
-    private String userName;
-    private String email;
-    private String password;
+public class NotificationRespond {
+    private String message;
+    private String type;
 }

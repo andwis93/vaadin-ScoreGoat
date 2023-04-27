@@ -57,7 +57,7 @@ public class ElementManager {
         button.setWidth(TeamValues.EM_14.getValues());
         button.setHeight(TeamValues.EM_3.getValues());
         button.getStyle().set("color", TeamValues.MAIN_COLOR.getValues());
-        button.getStyle().set("background", TeamValues.LIGHT_GREY.getValues());
+        button.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
         button.setEnabled(false);
@@ -82,8 +82,6 @@ public class ElementManager {
         label.getStyle().set("color", TeamValues.RED.getValues());
     }
 
-
-
     public void setUserLabel(Label label) {
         label.getStyle().set("font-size",TeamValues.PX_18.getValues());
         label.getStyle().set("color", TeamValues.BLACK.getValues());
@@ -94,7 +92,5 @@ public class ElementManager {
         label.getElement().getStyle().set("font-size", TeamValues.PX_32.getValues());
         label.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
     }
-
-
  }
 

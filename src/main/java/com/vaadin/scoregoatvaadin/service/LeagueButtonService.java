@@ -4,7 +4,6 @@ import com.vaadin.scoregoatvaadin.domain.LeagueButton;
 import com.vaadin.scoregoatvaadin.domain.LeagueLogos;
 import com.vaadin.scoregoatvaadin.domain.Leagues;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -6,7 +6,6 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.scoregoatvaadin.domain.*;
 import com.vaadin.scoregoatvaadin.facade.ScoreGoatFacade;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class MainView extends HorizontalLayout {
     private SignUpView signUpView = new SignUpView(this);
     private AccountView accountView = new AccountView(this);
     private ChangePasswordView changePasswordView = new ChangePasswordView(this);
-    private final ElementManager elements = new ElementManager();
+    private final MatchList matchList = new MatchList();
 
     private User user;
 
@@ -47,7 +46,7 @@ public class MainView extends HorizontalLayout {
         mainContent.add(toolBarView, vlToCenter);
         mainContent.setSizeFull();
         mainContent.setPadding(false);
-        mainContent.getStyle().set("background", TeamValues.DARK_GRAY.getValues());
+        mainContent.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
         mainContent.setHeight("350em");
         return mainContent;
     }

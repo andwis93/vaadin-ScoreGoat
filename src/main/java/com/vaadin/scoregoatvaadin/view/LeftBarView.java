@@ -12,14 +12,12 @@ import com.vaadin.scoregoatvaadin.service.MatchService;
 import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter
 public class LeftBarView extends HorizontalLayout{
     private final MainView mainView;
     private ImageManager image = new ImageManager();
-
     private MatchService matchService;
     private LeagueButtonService service = LeagueButtonService.getInstance();
 
