@@ -6,8 +6,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Names;
-import com.vaadin.scoregoatvaadin.domain.TeamValues;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamToolBarView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ public class ToolBarView extends HorizontalLayout {
     private Button logButton = new Button(Names.LOG_IN.getValue());
     private Button yourAccount = new Button(Names.YOUR_ACCOUNT.getValue());
     private final MainView mainView;
-    private ElementManager elements = new ElementManager();
+    private TeamToolBarView team = new TeamToolBarView();
 
     public ToolBarView(MainView mainView) {
         this.mainView = mainView;
@@ -52,30 +51,30 @@ public class ToolBarView extends HorizontalLayout {
         endComponent.setWidthFull();
         main.setWidthFull();
         main.add(startComponent, centerComponent, endComponent);
-        main.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
-        elements.setPositionLabel(position);
+        team.setMainLayout(main);
+        team.setPosition(position);
         return main;
     }
     private HorizontalLayout setUserNameAndLogButton() {
         HorizontalLayout hl = new HorizontalLayout(userLabel, logButton);
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, userLabel, logButton);
-        elements.setGeneralButton(logButton);
-        elements.setUserLabel(userLabel);
+        team.setGeneralBtn(logButton);
+        team.setUserLabel(userLabel);
         return hl;
     }
 
     private VerticalLayout setUserAccountElements() {
         VerticalLayout vl = new VerticalLayout(setUserNameAndLogButton(), yourAccount);
         vl.setAlignItems(FlexComponent.Alignment.END);
-        elements.setGeneralButtonNotEnable(yourAccount);
+        team.setGeneraNotEnableBtn(yourAccount);
         return vl;
     }
 
     public void logOutExecute() {
         userLabel.setText(Names.USER_LABEL.getValue());
         logButton.setText(Names.LOG_IN.getValue());
-        elements.setGeneralButton(logButton);
-        elements.setGeneralButtonNotEnable(yourAccount);
+        team.setGeneralBtn(logButton);
+        team.setGeneraNotEnableBtn(yourAccount);
         mainView.setUser(null);
     }
 

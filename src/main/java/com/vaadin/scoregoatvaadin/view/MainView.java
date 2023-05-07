@@ -6,6 +6,9 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.scoregoatvaadin.domain.*;
 import com.vaadin.scoregoatvaadin.facade.ScoreGoatFacade;
+import com.vaadin.scoregoatvaadin.service.PredictionService;
+import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamMainView;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,16 +22,17 @@ import org.springframework.stereotype.Component;
 public class MainView extends HorizontalLayout {
     @Autowired
     private ScoreGoatFacade facade;
+    private final TeamMainView team = new TeamMainView();
     private final LeftBarView leftBar = new LeftBarView(this);
     private final ToolBarView toolBarView = new ToolBarView(this);
-    private final HorizontalLayout matchesLayout = new HorizontalLayout();
+    private final DoubleLayout doubleLayout = new DoubleLayout(this);
     private final VerticalLayout mainContent = new VerticalLayout();
     private LogInView loginView = new LogInView(this);
     private SignUpView signUpView = new SignUpView(this);
     private AccountView accountView = new AccountView(this);
-    private ChangePasswordView changePasswordView = new ChangePasswordView(this);
-    private final MatchList matchList = new MatchList();
+    private PasswordView changePasswordView = new PasswordView(this);
 
+    private final MatchList matchList = new MatchList();
     private User user;
 
     public MainView() {
@@ -41,22 +45,21 @@ public class MainView extends HorizontalLayout {
     }
 
     private VerticalLayout setMainContent() {
-        VerticalLayout vlToCenter = new VerticalLayout(matchesLayout);
-        vlToCenter.setAlignItems(Alignment.CENTER);
-        mainContent.add(toolBarView, vlToCenter);
-        mainContent.setSizeFull();
+        doubleLayout.setMaxHeight(TeamValues.EM_49.getValues());
+        mainContent.add(toolBarView, doubleLayout);
+        mainContent.setAlignItems(Alignment.CENTER);
+        mainContent.setMargin(false);
         mainContent.setPadding(false);
-        mainContent.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
-        mainContent.setHeight("350em");
+        mainContent.setSizeFull();
+        team.setMainLayout(mainContent);
         return mainContent;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
-
-    public LogInView setLogInView(){
-     return this.loginView = new LogInView(this);
+    public void setLogInView(){
+        this.loginView = new LogInView(this);
     }
     public SignUpView setSignUpView(){
        return this.signUpView = new SignUpView(this);
@@ -64,8 +67,7 @@ public class MainView extends HorizontalLayout {
     public AccountView setAccountView(){
       return this.accountView = new AccountView(this);
     }
-    public ChangePasswordView setChangePasswordView(){
-       return this.changePasswordView = new ChangePasswordView(this);
+    public PasswordView setChangePasswordView(){
+       return this.changePasswordView = new PasswordView(this);
     }
-
 }

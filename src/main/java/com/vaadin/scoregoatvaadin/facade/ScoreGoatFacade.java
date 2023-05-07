@@ -41,4 +41,8 @@ public class ScoreGoatFacade {
     public NotificationRespond saveUserPredictions(PredictionDto predictionDto) {
         return scoreGoatClient.saveUserPredictions(filterService.onlySelectedMatches(predictionDto));
     }
+
+    public List<UserPredictionDto> fetchUserPredictions(Long userId, int leagueId) {
+        return scoreGoatClient.getUserPredictions(userId, leagueId);
+    }
 }

@@ -7,11 +7,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.scoregoatvaadin.domain.AccountDto;
-import com.vaadin.scoregoatvaadin.domain.Names;
-import com.vaadin.scoregoatvaadin.domain.TeamValues;
-import com.vaadin.scoregoatvaadin.domain.UserRespondDto;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
+import com.vaadin.scoregoatvaadin.domain.*;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamAccountView;
 import lombok.Getter;
 
 @Getter
@@ -25,15 +22,13 @@ public class AccountView extends VerticalLayout {
     private final Button close = new Button(Names.CLOSE.getValue());
     private final Label info = new Label();
     private final MainView mainView;
-    private final ChangePasswordView changePasswordView;
-    private final ElementManager setElements = new ElementManager();
+    private final PasswordView changePasswordView;
+    private final TeamAccountView team = new TeamAccountView();
 
     public AccountView(MainView mainView) {
         this.mainView = mainView;
         this.changePasswordView = mainView.getChangePasswordView();
-        setSizeUndefined();
-        setHeight("350em");
-        getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        team.setMineLayout(this);
 
         add(
                 setElements()
@@ -52,18 +47,18 @@ public class AccountView extends VerticalLayout {
 
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
-        setElements.setTextElements(name);
+        team.setText(name);
         name.setEnabled(false);
-        setElements.setEmailElement(email);
+        team.setEmail(email);
         email.setEnabled(false);
-        setElements.setPasswordElement(password);
+        team.setPassword(password);
         password.setEnabled(false);
-        setElements.setSideMenuButtonAccept(update);
+        team.setAcceptBtn(update);
         update.setEnabled(true);
-        setElements.setSideMenuButtonNotEnable(accept);
+        team.setNotEnableBtn(accept);
         accept.setEnabled(false);
-        setElements.setSideMenuButtonAccept(changePassword);
-        setElements.setSideMenuButtonClose(close);
+        team.setAcceptBtn(changePassword);
+        team.setCloseBtn(close);
         update.addClickShortcut(Key.ENTER);
         accept.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
@@ -82,8 +77,8 @@ public class AccountView extends VerticalLayout {
     }
 
     private void updateExecute() {
-        setElements.setSideMenuButtonNotEnable(update);
-        setElements.setSideMenuButtonAccept(accept);
+        team.setNotEnableBtn(update);
+        team.setAcceptBtn(accept);
         name.setEnabled(true);
         email.setEnabled(true);
         password.setEnabled(true);
@@ -105,15 +100,15 @@ public class AccountView extends VerticalLayout {
         mainView.getUser().setEmail(userRespondDto.getEmail());
         mainView.getUser().setId(userRespondDto.getId());
 
-        setElements.setSideMenuButtonAccept(update);
-        setElements.setSideMenuButtonNotEnable(accept);
+        team.setAcceptBtn(update);
+        team.setNotEnableBtn(accept);
         name.setEnabled(false);
         email.setEnabled(false);
         password.setEnabled(false);
         update.setEnabled(true);
         accept.setEnabled(false);
 
-        setElements.setInfoLabel(info);
+        team.setInfoLabel(info);
         info.setText(userRespondDto.getRespond());
     }
 
@@ -127,8 +122,8 @@ public class AccountView extends VerticalLayout {
             if (!name.getValue().equals("") && !email.getValue().equals("") && !password.getValue().equals("")) {
                 changeExecution();
             } else {
-                setElements.setInfoErrorLabel(info);
-                info.setText("Please enter values in all fields!");
+                team.setInfoLabelError(info);
+                info.setText(Messages.ACCOUNT_VIEW_ENTER_VALUE.getMessage());
             }
         }
     }

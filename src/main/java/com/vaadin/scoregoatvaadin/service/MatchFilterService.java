@@ -1,6 +1,7 @@
 package com.vaadin.scoregoatvaadin.service;
 
 import com.vaadin.scoregoatvaadin.domain.Match;
+import com.vaadin.scoregoatvaadin.domain.MatchStatus;
 import com.vaadin.scoregoatvaadin.domain.PredictionDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,12 +18,12 @@ import java.util.Map;
 public class MatchFilterService {
 
     public List<Match> notPlayed(List<Match> matches) {
-        return matches.stream().filter(match -> match.getStatus().equals("Not Started")).toList();
+        return matches.stream().filter(match -> match.getStatus().equals(MatchStatus.NOT_STARTED.getStatus())).toList();
     }
     public PredictionDto onlySelectedMatches(PredictionDto predictionDto) {
         Map<Long, String> filteredList = new HashMap<>();
         predictionDto.getMatchSelections().entrySet().stream().filter(match -> !match.getValue().isEmpty()).forEach(
                 entry -> filteredList.put(entry.getKey(), entry.getValue()));
-          return new PredictionDto(predictionDto.getUserId(), filteredList);
+          return new PredictionDto(predictionDto.getUserId(), predictionDto.getLeagueId(), filteredList);
     }
 }

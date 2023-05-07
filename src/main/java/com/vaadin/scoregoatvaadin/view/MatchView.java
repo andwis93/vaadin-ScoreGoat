@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Match;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamMatchView;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Map;
@@ -14,10 +15,10 @@ import java.util.Map;
 @Getter
 @Setter
 public class MatchView extends VerticalLayout {
+    private TeamMatchView team = new TeamMatchView();
     private Long fixtureId;
     private Label date = new Label();
     private Label time = new Label();
-    private Label status = new Label();
     private Button home = new Button();
     private Button away = new Button();
     private ImageManager imgMng = new ImageManager();
@@ -25,71 +26,43 @@ public class MatchView extends VerticalLayout {
 
     public MatchView(Match match, MainView mainView) {
         setSpacing(false);
+        setPadding(false);
+        setMargin(false);
         fixtureId = match.getFixtureId();
-        HorizontalLayout maineLayout = new HorizontalLayout();
+
         HorizontalLayout homeTeamLayout = new HorizontalLayout();
-        VerticalLayout centerLayout = new VerticalLayout();
-        HorizontalLayout awayTeamLayout = new HorizontalLayout();
-
-        setTeamButton(home, match.getHomeTeam());
+        team.setTeamButton(home, match.getHomeTeam());
         homeTeamLayout.add(imgMng.setTeamLogo(match.getHomeLogo()), home);
-        homeTeamLayout.setAlignItems(Alignment.CENTER);
-        VerticalLayout homeTeamVL = new VerticalLayout(homeTeamLayout);
-        homeTeamVL.setWidth(TeamValues.EM_38.getValues());
-        homeTeamVL.setAlignItems(Alignment.START);
+        team.setTeamLayout(homeTeamLayout);
 
-        setTeamButton(away, match.getAwayTeam());
+        HorizontalLayout awayTeamLayout = new HorizontalLayout();
+        team.setTeamButton(away, match.getAwayTeam());
         awayTeamLayout.add(away, imgMng.setTeamLogo(match.getAwayLogo()));
-        awayTeamLayout.setAlignItems(Alignment.CENTER);
-        VerticalLayout awayTeamVL = new VerticalLayout(awayTeamLayout);
-        awayTeamVL.setWidth(TeamValues.EM_38.getValues());
-        awayTeamVL.setAlignItems(Alignment.END);
+        team.setTeamLayout(awayTeamLayout);
 
         date.setText(match.getDate());
         time.setText(match.getTime());
-        status.setText(match.getStatus());
 
         setDataTimeElements();
 
-        centerLayout.add(date, time, status);
-        centerLayout.setAlignItems(Alignment.CENTER);
-        centerLayout.setWidth(TeamValues.EM_19.getValues());
-        centerLayout.setHeight(TeamValues.EM_8.getValues());
-        centerLayout.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
-        centerLayout.setSpacing(false);
+        VerticalLayout centerLayout = new VerticalLayout();
+        centerLayout.add(date, time);
+        team.setCenterLayout(centerLayout);
 
-        maineLayout.add(homeTeamVL, centerLayout, awayTeamVL);
-        maineLayout.setAlignItems(Alignment.CENTER);
-        maineLayout.getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
+        HorizontalLayout maineLayout = new HorizontalLayout();
+        maineLayout.add(homeTeamLayout, centerLayout, awayTeamLayout);
+        team.setMainLayout(maineLayout);
 
         add(maineLayout);
-        getStyle().set("background", TeamValues.CENTER_BACKGROUND.getValues());
+        team.setMatchLayout(this);
 
         home.addClickListener(event -> homeButtonClick(mainView.getMatchList().getMatchList()));
         away.addClickListener(event -> awayButtonClick(mainView.getMatchList().getMatchList()));
     }
 
-    private void setTeamButton(Button button, String team){
-        button.setText(team);
-        button.setWidth(TeamValues.EM_12.getValues());
-        button.setHeight(TeamValues.EM_3.getValues());
-        button.getStyle().set("color", TeamValues.BLACK.getValues());
-        button.getStyle().set("font-size", TeamValues.PX_36.getValues());
-        button.getStyle().set("font-weight", TeamValues.BOLD.getValues());
-        button.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
-        button.getStyle().set("cursor", TeamValues.POINTER.getValues());
-    }
-
     private void setDataTimeElements() {
-        date.getElement().getStyle().set("color", TeamValues.WHITE.getValues());
-        date.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
-
-        time.getElement().getStyle().set("color", TeamValues.WHITE.getValues());
-        time.getElement().getStyle().set("font-size", TeamValues.PX_24.getValues());
-        time.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
-
-        status.getElement().getStyle().set("color", TeamValues.ORANGE.getValues());
-        status.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        team.setData(date);
+        team.setTime(time);
     }
 
     private void homeButtonClick (Map<Long,String> matchList) {

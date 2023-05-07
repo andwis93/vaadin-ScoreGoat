@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +25,4 @@ public class Match {
     private boolean awayWinner;
     private int homeGoals;
     private int awayGoals;
-    private List<MatchPredictionDto> matchPredictionsDto;
 }

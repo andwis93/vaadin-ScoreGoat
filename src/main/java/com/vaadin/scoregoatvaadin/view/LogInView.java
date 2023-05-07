@@ -7,8 +7,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.scoregoatvaadin.domain.*;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
 import com.vaadin.scoregoatvaadin.view.manager.UserManager;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamLogInView;
 import java.util.Objects;
 
 public class LogInView extends VerticalLayout {
@@ -18,7 +18,7 @@ public class LogInView extends VerticalLayout {
     private final Button cancel = new Button(Names.CANCEL.getValue());
     private final Button signUp = new Button(Names.SIGN_UP.getValue());
     private final Label info = new Label();
-    private final ElementManager elements = new ElementManager();
+    private final TeamLogInView team = new TeamLogInView();
     private final UserManager userManager = new UserManager();
     private final MainView mainView;
     private final ToolBarView toolBarView;
@@ -27,8 +27,7 @@ public class LogInView extends VerticalLayout {
         this.mainView = mainView;
         this.toolBarView = mainView.getToolBarView();
         setSizeUndefined();
-        getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
-        setHeight("350em");
+        team.setMainLayout(this);
 
         add(
                 setElements()
@@ -52,22 +51,22 @@ public class LogInView extends VerticalLayout {
                     logInExecution(respond);
                 } else {
                     info.setText(respond.getRespond());
-                    elements.setInfoErrorLabel(info);
+                    team.setInfoLabelError(info);
                 }
             } else {
-                info.setText("Error occur. Couldn't logIn user!");
+                info.setText(Messages.LOG_IN_VIEW_LOG_IN_ERROR.getMessage());
             }
         }
     }
 
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
-        elements.setTextElements(name);
-        elements.setPasswordElement(password);
-        elements.setSideMenuButtonAccept(logIn);
-        elements.setSideMenuButtonClose(cancel);
-        elements.setSideMenuButtonAccept(signUp);
-        elements.setInfoErrorLabel(info);
+        team.setText(name);
+        team.setPassword(password);
+        team.setAcceptBtn(logIn);
+        team.setCloseBtn(cancel);
+        team.setAcceptBtn(signUp);
+        team.setInfoLabelError(info);
         logIn.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         vl.add(
@@ -78,21 +77,21 @@ public class LogInView extends VerticalLayout {
                 signUp,
                 info
         );
-        vl.getStyle().set("background", TeamValues.WHITE.getValues());
+        team.setSecondaryLayout(vl);
         return vl;
     }
 
     private void logInExecution(UserRespondDto respond) {
         mainView.setUser(userManager.setUser(respond));
         mainView.remove(this);
-        mainView.getMatchesLayout().removeAll();
+        mainView.getDoubleLayout().removeAll();
         toolBarView.getUserLabel().setText(respond.getUserName());
         toolBarView.getLogButton().setText(Names.LOG_OUT.getValue());
         toolBarView.getYourAccount().setEnabled(true);
         info.setText(respond.getRespond());
-        elements.setGeneralButtonWarningColor(toolBarView.getLogButton());
-        elements.setGeneralButton(mainView.getToolBarView().getYourAccount());
-        elements.setInfoLabel(info);
+        team.setGeneralBtnWarningColor(toolBarView.getLogButton());
+        team.setGeneralBtn(mainView.getToolBarView().getYourAccount());
+        team.setInfoLabel(info);
     }
 
     public void logInExecute() {
@@ -100,6 +99,7 @@ public class LogInView extends VerticalLayout {
     }
 
     public LogInView setLogInView() {
+
         return mainView.getLoginView();
     }
 }

@@ -1,13 +1,13 @@
 package com.vaadin.scoregoatvaadin.service;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Match;
+import com.vaadin.scoregoatvaadin.domain.Messages;
 import com.vaadin.scoregoatvaadin.domain.NotificationRespond;
 import com.vaadin.scoregoatvaadin.domain.PredictionDto;
-import com.vaadin.scoregoatvaadin.domain.TeamValues;
+import com.vaadin.scoregoatvaadin.service.elements.TeamMatchService;
 import com.vaadin.scoregoatvaadin.view.MainView;
 import com.vaadin.scoregoatvaadin.view.MatchView;
 import lombok.Getter;
@@ -22,12 +22,12 @@ import java.util.*;
 @Service
 public class MatchService {
     private List<Match> matches = new ArrayList<>();
+    private TeamMatchService team = new TeamMatchService();
     private MainView mainView;
-    private Button save = new Button("SAVE");
+
 
     public MatchService(MainView mainView) {
         this.mainView = mainView;
-        save.addClickListener(event -> saveExecution());
     }
 
     private List<Match> provideMatches(Long userId, int leagueId) {
@@ -37,8 +37,6 @@ public class MatchService {
     public VerticalLayout createLayout(int leagueId) {
         VerticalLayout vl = new VerticalLayout();
         Map<Long,String> matchList = new HashMap<>();
-        setSaveButton();
-        vl.add(save);
         Long userId = Optional.ofNullable(mainView.getUser()).isPresent() ? mainView.getUser().getId() : 0;
         matches = provideMatches(userId, leagueId);
         mainView.getMatchList().setLeagueId(leagueId);
@@ -46,32 +44,25 @@ public class MatchService {
             matchList.put(match.getId(),"");
             vl.add(new MatchView(match, mainView));
         }
+
+        team.setVerticalLayout(vl);
         mainView.getMatchList().setMatchList(matchList);
         return vl;
-    }
-
-    public void setSaveButton() {
-        save.setWidthFull();
-        save.setHeight("80px");
-        save.getStyle().set("font-size", TeamValues.PX_36.getValues());
-        save.getStyle().set("color", TeamValues.WHITE.getValues());
-        save.getStyle().set("background",  TeamValues.SAVE_BUTTON.getValues());
-        save.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 
     public void saveExecution(){
         NotificationSelection selection = new NotificationSelection();
         if ((mainView.getUser() != null) && (mainView.getUser().getId() != null)) {
-            PredictionDto predictionDto = new PredictionDto(mainView.getUser().getId(),
+            PredictionDto predictionDto = new PredictionDto(mainView.getUser().getId(), mainView.getMatchList().getLeagueId(),
                     mainView.getMatchList().getMatchList());
             NotificationRespond respond = mainView.getFacade().saveUserPredictions(predictionDto);
-            mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getMatchesLayout());
+            mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
             Notification notification = Notification.show(respond.getMessage());
             notification.setPosition(Notification.Position.MIDDLE);
             notification.addThemeVariants(selection.selectVariant(respond.getType()));
 
         } else {
-            Notification notification = Notification.show("Couldn't save user predictions. Please make sure you are logged in and try again");
+            Notification notification = Notification.show(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
             notification.setPosition(Notification.Position.MIDDLE);
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }

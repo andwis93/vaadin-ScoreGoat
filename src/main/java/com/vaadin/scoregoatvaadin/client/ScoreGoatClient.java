@@ -11,10 +11,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -74,8 +71,10 @@ public class ScoreGoatClient {
 
     public List<Match> getMatchesByLeagueId(long userId, int leagueId){
         try {
-            return Arrays.stream(Objects.requireNonNull(
-                    restTemplate.postForObject(createUriForMatches(userId, leagueId), null, Match[].class))).collect(Collectors.toList());
+            Match[] boardsRespond = restTemplate.postForObject(createUriForMatches(userId, leagueId), null, Match[].class);
+            return Optional.ofNullable(boardsRespond)
+                    .map(Arrays::asList)
+                    .orElse(Collections.emptyList());
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return List.of();
@@ -89,6 +88,26 @@ public class ScoreGoatClient {
             LOGGER.error(e.getMessage(), e);
             return new NotificationRespond("Something Went Wrong - couldn't save predictions",
                     NotificationVariant.LUMO_ERROR.getVariantName());
+        }
+    }
+    private URI createUriForUserPredictions(Long userId, int leagueId) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/prediction")
+                .queryParam("userId", userId)
+                .queryParam("leagueId", leagueId)
+                .build().encode().toUri();
+    }
+    public List<UserPredictionDto> getUserPredictions(Long userId, int leagueId) {
+        try {
+            UserPredictionDto[] boardsRespond = restTemplate.getForObject(
+                    createUriForUserPredictions(userId, leagueId), UserPredictionDto[].class);
+            return Optional.ofNullable(boardsRespond)
+                    .map(Arrays::asList)
+                    .orElse(Collections.emptyList());
+
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
         }
     }
 }

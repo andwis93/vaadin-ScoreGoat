@@ -5,28 +5,24 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.scoregoatvaadin.domain.Names;
-import com.vaadin.scoregoatvaadin.domain.PasswordDto;
-import com.vaadin.scoregoatvaadin.domain.TeamValues;
-import com.vaadin.scoregoatvaadin.domain.UserRespondDto;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
+import com.vaadin.scoregoatvaadin.domain.*;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamPasswordView;
 import java.util.Objects;
 
-public class ChangePasswordView extends VerticalLayout {
+public class PasswordView extends VerticalLayout {
     private final PasswordField oldPassword = new PasswordField(Names.OLD_PASSWORD.getValue());
     private final PasswordField newPassword = new PasswordField(Names.NEW_PASSWORD.getValue());
     private final PasswordField repeatPassword = new PasswordField(Names.REPEAT_PASSWORD.getValue());
     private final Button accept = new Button(Names.ACCEPT.getValue());
     private final Button cancel = new Button(Names.CANCEL.getValue());
     private final Label info = new Label();
-    private final ElementManager elements = new ElementManager();
+    private final TeamPasswordView team = new TeamPasswordView();
     private final MainView mainView;
 
-    public ChangePasswordView(MainView mainView) {
+    public PasswordView(MainView mainView) {
         this.mainView = mainView;
         setSizeUndefined();
-        setHeight("350em");
-        getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        team.setMainLayout(this);
         add(
                 setElements()
         );
@@ -35,12 +31,12 @@ public class ChangePasswordView extends VerticalLayout {
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
-        elements.setPasswordElement(oldPassword);
-        elements.setPasswordElement(newPassword);
-        elements.setPasswordElement(repeatPassword);
-        elements.setSideMenuButtonAccept(accept);
-        elements.setSideMenuButtonClose(cancel);
-        elements.setInfoErrorLabel(info);
+        team.setPassword(oldPassword);
+        team.setPassword(newPassword);
+        team.setPassword(repeatPassword);
+        team.setAcceptBtn(accept);
+        team.setCloseBtn(cancel);
+        team.setInfoLabelError(info);
         accept.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
 
@@ -51,7 +47,7 @@ public class ChangePasswordView extends VerticalLayout {
                 accept,
                 cancel,
                 info);
-        vl.getStyle().set("background", TeamValues.WHITE.getValues());
+        team.setSecondaryLayout(vl);
         return vl;
     }
 
@@ -63,14 +59,16 @@ public class ChangePasswordView extends VerticalLayout {
             if (respond != null) {
                 changePasswordExecution(respond);
             } else {
-                info.setText("Error occur. Couldn't change password!");
-                elements.setInfoErrorLabel(info);
+                info.setText(Messages.PASSWORD_CHANGE_ERROR.getMessage());
+                team.setInfoLabelError(info);
             }
         }
     }
+
     private void changePasswordExecution(UserRespondDto respond) {
         info.setText(respond.getRespond());
-        elements.setInfoLabel(info);
+        team.setInfoLabel(info);
         this.setVisible(false);
     }
+
 }

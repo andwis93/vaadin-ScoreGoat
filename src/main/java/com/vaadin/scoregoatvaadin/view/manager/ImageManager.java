@@ -12,7 +12,7 @@ public class ImageManager {
         return img;
     }
 
-    private Image getImage(String dir) {
+    public Image getImage(String dir) {
         StreamResource imageResource = new StreamResource(dir,
                 () -> getClass().getResourceAsStream("/" + dir));
         return new Image(imageResource, null);
@@ -20,8 +20,8 @@ public class ImageManager {
 
     public Image setTeamLogo( String dir) {
         Image img = new Image(dir, "TeamLogos");
-        img.setWidth(TeamValues.EM_6.getValues());
-        img.setHeight(TeamValues.EM_6.getValues());
+        img.setWidth(TeamValues.EM_3.getValues());
+        img.setHeight(TeamValues.EM_3.getValues());
         return img;
     }
 }

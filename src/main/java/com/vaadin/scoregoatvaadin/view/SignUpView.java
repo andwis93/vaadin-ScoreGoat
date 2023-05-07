@@ -9,8 +9,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.scoregoatvaadin.domain.*;
-import com.vaadin.scoregoatvaadin.view.manager.ElementManager;
-import com.vaadin.scoregoatvaadin.view.manager.UserManager;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamSignUpView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +23,7 @@ public class SignUpView extends VerticalLayout {
     private final Button create = new Button(Names.SIGN_UP.getValue());
     private final Button close = new Button(Names.CLOSE.getValue());
     private final Label info = new Label();
-    private final ElementManager elements = new ElementManager();
+    private final TeamSignUpView team = new TeamSignUpView();
     private final MainView mainView;
     private final ToolBarView toolBarView;
 
@@ -32,8 +31,7 @@ public class SignUpView extends VerticalLayout {
         this.mainView = mainView;
         this.toolBarView = mainView.getToolBarView();
         setSizeUndefined();
-        setHeight("350em");
-        getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        team.setMineLayout(this);
 
         create.addClickListener(event -> signIn());
         close.addClickListener(event -> mainView.remove(this));
@@ -44,13 +42,13 @@ public class SignUpView extends VerticalLayout {
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
-        elements.setTextElements(name);
-        elements.setEmailElement(email);
-        elements.setPasswordElement(password);
-        elements.setPasswordElement(repeatPassword);
-        elements.setSideMenuButtonAccept(create);
-        elements.setSideMenuButtonClose(close);
-        elements.setInfoErrorLabel(info);
+        team.setText(name);
+        team.setEmail(email);
+        team.setPassword(password);
+        team.setPassword(repeatPassword);
+        team.setAcceptBtn(create);
+        team.setCloseBtn(close);
+        team.setInfoLabelError(info);
         vl.add (
                 name,
                 email,
@@ -60,7 +58,7 @@ public class SignUpView extends VerticalLayout {
                 close,
                 info
         );
-        vl.getStyle().set("background", TeamValues.WHITE.getValues());
+        team.setSecondaryLayout(vl);
         return vl;
     }
 
@@ -75,10 +73,10 @@ public class SignUpView extends VerticalLayout {
                     info.setText(respond.getRespond());
                 }
             }else {
-                info.setText("Error occur. Couldn't create new user!");
+                info.setText(Messages.SIGN_UP_USER_NOT_CREATED.getMessage());
             }
         }else {
-            info.setText("Repeated password is different. Please enter same password twice to finalize signing in.");
+            info.setText(Messages.SIGN_UP_PASSWORD_DIFFERENT.getMessage());
         }
     }
 
