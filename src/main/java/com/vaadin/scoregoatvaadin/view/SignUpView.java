@@ -25,16 +25,16 @@ public class SignUpView extends VerticalLayout {
     private final Label info = new Label();
     private final TeamSignUpView team = new TeamSignUpView();
     private final MainView mainView;
-    private final ToolBarView toolBarView;
+
 
     public SignUpView(MainView mainView) {
         this.mainView = mainView;
-        this.toolBarView = mainView.getToolBarView();
+
         setSizeUndefined();
         team.setMineLayout(this);
 
         create.addClickListener(event -> signIn());
-        close.addClickListener(event -> mainView.remove(this));
+        close.addClickListener(event -> mainView.getAccountLayout().remove(this));
 
         add(
                 setElements()
@@ -81,7 +81,7 @@ public class SignUpView extends VerticalLayout {
     }
 
     private void signInExecute(UserRespondDto respond){
-        mainView.remove(this);
+        mainView.getAccountLayout().remove(this);
         Notification notification = Notification.show(respond.getRespond());
         notification.setPosition(Notification.Position.MIDDLE);
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

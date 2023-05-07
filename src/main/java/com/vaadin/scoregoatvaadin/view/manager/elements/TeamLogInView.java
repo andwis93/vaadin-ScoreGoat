@@ -10,7 +10,7 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 public class TeamLogInView {
 
     public void setMainLayout(VerticalLayout vl) {
-        vl.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        vl.getStyle().set("background", TeamValues.ACCOUNT_LAYOUTS.getValues());
         vl.setHeightFull();
     }
 
@@ -60,8 +60,8 @@ public class TeamLogInView {
 
     public void setGeneralBtn(Button button) {
         button.setSizeUndefined();
-        button.getStyle().set("color", TeamValues.WHITE.getValues());
-        button.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        button.getStyle().set("color", TeamValues.BLACK.getValues());
+        button.getStyle().set("background", TeamValues.USER_BUTTON.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }

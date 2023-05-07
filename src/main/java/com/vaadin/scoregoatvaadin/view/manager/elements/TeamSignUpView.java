@@ -11,7 +11,7 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 public class TeamSignUpView {
 
     public void setMineLayout(VerticalLayout vl) {
-        vl.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        vl.getStyle().set("background", TeamValues.ACCOUNT_LAYOUTS.getValues());
         vl.setHeightFull();
     }
 

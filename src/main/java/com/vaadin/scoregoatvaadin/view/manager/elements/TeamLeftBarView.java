@@ -1,6 +1,7 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 

@@ -37,12 +37,12 @@ public class AccountView extends VerticalLayout {
         update.addClickListener(event -> updateExecute());
         accept.addClickListener(event -> acceptExecution());
         changePassword.addClickListener(event -> changePasswordExecute());
-        close.addClickListener(event -> mainView.remove(this));
+        close.addClickListener(event -> mainView.getAccountLayout().remove(this));
     }
 
     private void changePasswordExecute() {
-        mainView.remove(this);
-        mainView.add(mainView.setChangePasswordView());
+        mainView.getAccountLayout().remove(this);
+        mainView.getAccountLayout().add(mainView.setChangePasswordView());
     }
 
     private VerticalLayout setElements() {
@@ -95,7 +95,7 @@ public class AccountView extends VerticalLayout {
 
         UserRespondDto userRespondDto = mainView.getFacade().changeAccountValues(accountDto);
 
-        mainView.getToolBarView().getUserLabel().setText(userRespondDto.getUserName());
+        mainView.getLeftBar().getUserView().getUserLabel().setText(userRespondDto.getUserName());
         mainView.getUser().setName(userRespondDto.getUserName());
         mainView.getUser().setEmail(userRespondDto.getEmail());
         mainView.getUser().setId(userRespondDto.getId());
@@ -117,7 +117,7 @@ public class AccountView extends VerticalLayout {
     }
 
     public void acceptExecution(){
-        mainView.add(setAccountView());
+        mainView.getAccountLayout().add(setAccountView());
         if (mainView.getUser().getId() != null) {
             if (!name.getValue().equals("") && !email.getValue().equals("") && !password.getValue().equals("")) {
                 changeExecution();

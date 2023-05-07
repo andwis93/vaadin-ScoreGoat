@@ -11,13 +11,16 @@ public enum TeamValues {
   MAIN_COLOR("#4B4E53"),
   DARK_SALMON("DarkSalmon"),
   DOUBLE_LAYOUT("#333333"),
+  ACCOUNT_LAYOUTS("#54626F"),
   WHITE("WHITE"),
   BEAU_BLUE("#BCD4E6"),
   LIGHT_BLUE("#89CFF0"),
   SAVE_BUTTON("ORANGE"),
   TEAM_BUTTON("#F2F3F5"),
   CENTER_BACKGROUND("#DCDCDC"),
+  USER_BUTTON("#98AFC7"),
   TOP_MENU("#C7C6C1"),
+  USER_NAME("#F5F5DC"),
   RED("RED"),
   ORANGE("ORANGE"),
   EM_2("2em"),
@@ -41,7 +44,7 @@ public enum TeamValues {
   EM_38("38em"),
   EM_39("39em"),
   EM_40("40em"),
-  EM_49("49em"),
+  EM_48("48em"),
   EM_50("50em"),
   EM_52("55em"),
   EM_55("55em"),
@@ -58,6 +61,7 @@ public enum TeamValues {
   PX_32("32px"),
   PX_36("36px"),
   BOLD("Bold"),
+  NORMAL("Normal"),
   POINTER("pointer");
 
   private final String values;

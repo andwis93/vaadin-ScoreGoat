@@ -1,7 +1,6 @@
 package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.LeagueButton;
@@ -18,6 +17,7 @@ import lombok.Setter;
 @Setter
 public class LeftBarView extends HorizontalLayout{
     private final MainView mainView;
+    private final UserView userView;
     private ImageManager image = new ImageManager();
     private DoubleLayoutService doubleLayoutService;
     private TeamLeftBarView team = new TeamLeftBarView();
@@ -25,6 +25,7 @@ public class LeftBarView extends HorizontalLayout{
 
     public LeftBarView(MainView mainView) {
         this.mainView = mainView;
+        this.userView = new UserView(mainView);
         this.doubleLayoutService = new DoubleLayoutService(mainView);
         add(
                 setLeaguesElements()
@@ -37,11 +38,14 @@ public class LeftBarView extends HorizontalLayout{
     }
 
     private HorizontalLayout setLeaguesElements() {
-        VerticalLayout vl = new VerticalLayout();
+        VerticalLayout vl = new VerticalLayout(userView);
+        vl.setAlignItems(Alignment.CENTER);
+        VerticalLayout vlButtons = new VerticalLayout();
         for (LeagueButton button:service.getList()) {
-            vl.add(setButton(button.getButton(), button.getLogo()));
+            vlButtons.add(setButton(button.getButton(), button.getLogo()));
         }
-        vl.setAlignItems(FlexComponent.Alignment.CENTER);
+        vlButtons.setAlignItems(Alignment.CENTER);
+        vl.add(vlButtons);
         HorizontalLayout hl = new HorizontalLayout(vl);
         team.setLayoutH(hl);
         return hl;

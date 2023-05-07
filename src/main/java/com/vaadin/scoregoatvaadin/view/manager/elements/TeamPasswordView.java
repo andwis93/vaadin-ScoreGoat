@@ -9,7 +9,7 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 public class TeamPasswordView {
 
     public void setMainLayout(VerticalLayout vl) {
-        vl.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        vl.getStyle().set("background", TeamValues.ACCOUNT_LAYOUTS.getValues());
         vl.setHeightFull();
     }
 

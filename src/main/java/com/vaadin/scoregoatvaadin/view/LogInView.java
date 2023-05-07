@@ -20,12 +20,13 @@ public class LogInView extends VerticalLayout {
     private final Label info = new Label();
     private final TeamLogInView team = new TeamLogInView();
     private final UserManager userManager = new UserManager();
+    private final LeftBarView leftBarView;
     private final MainView mainView;
-    private final ToolBarView toolBarView;
+
 
     public LogInView(MainView mainView) {
         this.mainView = mainView;
-        this.toolBarView = mainView.getToolBarView();
+        this.leftBarView = mainView.getLeftBar();
         setSizeUndefined();
         team.setMainLayout(this);
 
@@ -36,10 +37,10 @@ public class LogInView extends VerticalLayout {
         logIn.addClickListener(event -> {
             logIn();
         });
-        cancel.addClickListener(event -> mainView.remove(this));
+        cancel.addClickListener(event -> mainView.getAccountLayout().remove(this));
         signUp.addClickListener(event -> {
-            mainView.remove(this);
-            mainView.add(mainView.setSignUpView());
+            mainView.getAccountLayout().remove(this);
+            mainView.getAccountLayout().add(mainView.setSignUpView());
         });
     }
 
@@ -83,23 +84,22 @@ public class LogInView extends VerticalLayout {
 
     private void logInExecution(UserRespondDto respond) {
         mainView.setUser(userManager.setUser(respond));
-        mainView.remove(this);
+        mainView.getAccountLayout().remove(this);
         mainView.getDoubleLayout().removeAll();
-        toolBarView.getUserLabel().setText(respond.getUserName());
-        toolBarView.getLogButton().setText(Names.LOG_OUT.getValue());
-        toolBarView.getYourAccount().setEnabled(true);
+        leftBarView.getUserView().getUserLabel().setText(respond.getUserName());
+        leftBarView.getUserView().getLogButton().setText(Names.LOG_OUT.getValue());
+        leftBarView.getUserView().getYourAccount().setEnabled(true);
         info.setText(respond.getRespond());
-        team.setGeneralBtnWarningColor(toolBarView.getLogButton());
-        team.setGeneralBtn(mainView.getToolBarView().getYourAccount());
+        team.setGeneralBtnWarningColor(leftBarView.getUserView().getLogButton());
+        team.setGeneralBtn(leftBarView.getUserView().getYourAccount());
         team.setInfoLabel(info);
     }
 
     public void logInExecute() {
-        mainView.add(setLogInView());
+        mainView.getAccountLayout().add(setLogInView());
     }
 
     public LogInView setLogInView() {
-
         return mainView.getLoginView();
     }
 }

@@ -27,7 +27,7 @@ public class PasswordView extends VerticalLayout {
                 setElements()
         );
         accept.addClickListener(event -> changePassword());
-        cancel.addClickListener(event -> mainView.remove(this));
+        cancel.addClickListener(event -> mainView.getAccountLayout().remove(this));
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
@@ -37,6 +37,7 @@ public class PasswordView extends VerticalLayout {
         team.setAcceptBtn(accept);
         team.setCloseBtn(cancel);
         team.setInfoLabelError(info);
+        team.setSecondaryLayout(vl);
         accept.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
 
@@ -47,7 +48,7 @@ public class PasswordView extends VerticalLayout {
                 accept,
                 cancel,
                 info);
-        team.setSecondaryLayout(vl);
+
         return vl;
     }
 
@@ -68,7 +69,7 @@ public class PasswordView extends VerticalLayout {
     private void changePasswordExecution(UserRespondDto respond) {
         info.setText(respond.getRespond());
         team.setInfoLabel(info);
-        this.setVisible(false);
+        mainView.getAccountLayout().remove(this);
     }
 
 }

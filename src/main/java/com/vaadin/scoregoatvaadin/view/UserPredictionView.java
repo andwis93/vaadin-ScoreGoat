@@ -39,12 +39,16 @@ public class UserPredictionView {
 
         grid.addColumn(createHomeLogo()).setAutoWidth(true).setFlexGrow(0);
         grid.addColumn(createHomeTeamRenderer()).setAutoWidth(true).setHeader("HOME TEAM").setFlexGrow(0)
-                .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getHomeTeam);;
+                .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getHomeTeam);
+        grid.addColumn(UserPredictionDto::getHomeGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
         grid.addColumn(createDateTime()).setAutoWidth(true).setHeader("DATE").setFlexGrow(0)
-                .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getDate);;
+                .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getDate);
+        grid.addColumn(UserPredictionDto::getAwayGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
         grid.addColumn(createAwayTeamRenderer()).setAutoWidth(true).setHeader("AWAY TEAM").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getAwayTeam);
         grid.addColumn(createAwayLogo()).setAutoWidth(true).setFlexGrow(0);
+        grid.addColumn(createResultRenderer()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
+                setSortable(true).setComparator(UserPredictionDto::getResult);
         grid.setSizeFull();
         vl.add(grid);
         return vl;
@@ -80,20 +84,24 @@ public class UserPredictionView {
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
         String theme;
+        String style;
         switch (prediction) {
             case "home" -> {
                 theme = String.format("badge %s", "success");
+                style = TeamValues.BOLD.getValues();
             }
             case "away" -> {
                 theme = String.format("badge %s", "error");
+                style = TeamValues.NORMAL.getValues();
             }
             default -> {
                 theme = String.format("badge %s", "contrast");
+                style = TeamValues.BOLD.getValues();
             }
         }
         span.getElement().setAttribute("theme", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
-        span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        span.getElement().getStyle().set("font-weight", style);
         span.setText(userPredictionsDto.getHomeTeam());
     };
 
@@ -105,24 +113,52 @@ public class UserPredictionView {
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
         String theme;
+        String style;
         switch (prediction) {
             case "home" -> {
                 theme = String.format("badge %s", "error");
+                style = TeamValues.NORMAL.getValues();
             }
             case "away" -> {
                 theme = String.format("badge %s", "success");
+                style = TeamValues.BOLD.getValues();
             }
             default -> {
                 theme = String.format("badge %s", "contrast");
+                style = TeamValues.BOLD.getValues();
             }
         }
         span.getElement().setAttribute("theme", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
-        span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        span.getElement().getStyle().set("font-weight", style);
         span.setText(userPredictionsDto.getAwayTeam());
     };
 
     private static ComponentRenderer<Span, UserPredictionDto> createAwayTeamRenderer() {
         return new ComponentRenderer<>(Span::new, userPredictionUpdateAwayTeam);
+    }
+
+    private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionResult = (
+            span, userPredictionsDto) -> {
+        String theme;
+        String sign;
+        if (userPredictionsDto.getResult() > 0) {
+            theme = String.format("badge %s", "success");
+            sign = "+";
+        } else if (userPredictionsDto.getResult() < 0) {
+            theme = String.format("badge %s", "error");
+            sign = "";
+        } else {
+            theme = String.format("badge %s", "contrast");
+            sign = "";
+        }
+        span.getElement().setAttribute("theme", theme);
+        span.getElement().getStyle().set("font-size", TeamValues.PX_24.getValues());
+        span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        span.setText(sign + userPredictionsDto.getResult());
+    };
+
+    private static ComponentRenderer<Span, UserPredictionDto> createResultRenderer() {
+        return new ComponentRenderer<>(Span::new, userPredictionResult);
     }
 }

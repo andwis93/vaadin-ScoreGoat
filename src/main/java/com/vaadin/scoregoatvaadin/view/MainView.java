@@ -6,8 +6,6 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.scoregoatvaadin.domain.*;
 import com.vaadin.scoregoatvaadin.facade.ScoreGoatFacade;
-import com.vaadin.scoregoatvaadin.service.PredictionService;
-import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamMainView;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,9 @@ public class MainView extends HorizontalLayout {
     private ScoreGoatFacade facade;
     private final TeamMainView team = new TeamMainView();
     private final LeftBarView leftBar = new LeftBarView(this);
-    private final ToolBarView toolBarView = new ToolBarView(this);
+    private final HorizontalLayout accountLayout = new HorizontalLayout();
+    private final HorizontalLayout toolbar = new HorizontalLayout();
+
     private final DoubleLayout doubleLayout = new DoubleLayout(this);
     private final VerticalLayout mainContent = new VerticalLayout();
     private LogInView loginView = new LogInView(this);
@@ -40,13 +40,14 @@ public class MainView extends HorizontalLayout {
         setSpacing(false);
         add(
                 leftBar,
+                accountLayout,
                 setMainContent()
         );
     }
 
     private VerticalLayout setMainContent() {
-        doubleLayout.setMaxHeight(TeamValues.EM_49.getValues());
-        mainContent.add(toolBarView, doubleLayout);
+        doubleLayout.setMaxHeight(TeamValues.EM_48.getValues());
+        mainContent.add(toolbar, doubleLayout);
         mainContent.setAlignItems(Alignment.CENTER);
         mainContent.setMargin(false);
         mainContent.setPadding(false);
