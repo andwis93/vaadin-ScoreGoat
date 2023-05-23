@@ -128,14 +128,23 @@ public class UserPredictionView {
                 }
             }
         } else {
-            if (prediction.equals("home") || (prediction.equals("draw"))) {
-                theme = TeamValues.BLUE.getValues();
-                style = TeamValues.BOLD.getValues();
-                size = TeamValues.PX_14.getValues();
-            } else {
-                theme = TeamValues.BLACK.getValues();
-                style = TeamValues.NORMAL.getValues();
-                size = TeamValues.PX_12.getValues();
+            switch (prediction) {
+                case "home", "draw" -> {
+                    theme = TeamValues.BLUE.getValues();
+                    style = TeamValues.BOLD.getValues();
+                    size = TeamValues.PX_14.getValues();
+
+                }
+                case "away" -> {
+                    theme = TeamValues.BLACK.getValues();
+                    style = TeamValues.NORMAL.getValues();
+                    size = TeamValues.PX_12.getValues();
+                }
+                default -> {
+                    theme = TeamValues.BLACK.getValues();
+                    size = TeamValues.PX_12.getValues();
+                    style = TeamValues.NORMAL.getValues();
+                }
             }
         }
         span.getElement().getStyle().set("color", theme);
@@ -198,14 +207,22 @@ public class UserPredictionView {
                 }
             }
         } else {
-            if (prediction.equals("away")) {
-                theme = TeamValues.BLUE.getValues();
-                style = TeamValues.BOLD.getValues();
-                size = TeamValues.PX_14.getValues();
-            } else {
-                theme = TeamValues.BLACK.getValues();
-                style = TeamValues.NORMAL.getValues();
-                size = TeamValues.PX_12.getValues();
+            switch (prediction) {
+                case "home" -> {
+                        theme = TeamValues.BLACK.getValues();
+                        style = TeamValues.NORMAL.getValues();
+                        size = TeamValues.PX_12.getValues();
+                }
+                case "away", "draw" -> {
+                    theme = TeamValues.BLUE.getValues();
+                    style = TeamValues.BOLD.getValues();
+                    size = TeamValues.PX_14.getValues();
+                }
+                default -> {
+                    theme = TeamValues.BLACK.getValues();
+                    size = TeamValues.PX_12.getValues();
+                    style = TeamValues.NORMAL.getValues();
+                }
             }
         }
         span.getElement().getStyle().set("color", theme);
