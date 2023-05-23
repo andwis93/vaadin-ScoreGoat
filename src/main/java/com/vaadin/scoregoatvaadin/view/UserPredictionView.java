@@ -33,22 +33,21 @@ public class UserPredictionView {
 
         Grid<UserPredictionDto> grid = new Grid<>(UserPredictionDto.class, false);
         grid.setItems(predictionService.getPredictions());
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.getStyle().set("font-size", TeamValues.PX_12.getValues());
-        grid.getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
+        grid.getStyle().set("font-size", TeamValues.PX_10.getValues());
 
-        grid.addColumn(createHomeLogo()).setAutoWidth(true).setFlexGrow(0);
-        grid.addColumn(createHomeTeamRenderer()).setAutoWidth(true).setHeader("HOME TEAM").setFlexGrow(0)
+        grid.addColumn(createHomeLogo()).setWidth(TeamValues.EM_6.getValues()).setFlexGrow(0);
+        grid.addColumn(createHomeTeamRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" HOME").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getHomeTeam);
         grid.addColumn(UserPredictionDto::getHomeGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
         grid.addColumn(createDateTime()).setAutoWidth(true).setHeader("DATE").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getDate);
         grid.addColumn(UserPredictionDto::getAwayGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(createAwayTeamRenderer()).setAutoWidth(true).setHeader("AWAY TEAM").setFlexGrow(0)
+        grid.addColumn(createAwayTeamRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" AWAY").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getAwayTeam);
-        grid.addColumn(createAwayLogo()).setAutoWidth(true).setFlexGrow(0);
-        grid.addColumn(createResultRenderer()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
-                setSortable(true).setComparator(UserPredictionDto::getResult);
+        grid.addColumn(createAwayLogo()).setWidth(TeamValues.EM_5.getValues()).setFlexGrow(0);
+        grid.addColumn(createResultRenderer()).setWidth(TeamValues.EM_6.getValues()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
+                setSortable(true).setComparator(UserPredictionDto::getPoints);
         grid.setSizeFull();
         vl.add(grid);
         return vl;
@@ -56,7 +55,7 @@ public class UserPredictionView {
 
     private static Renderer<UserPredictionDto> createHomeLogo() {
         return LitRenderer.<UserPredictionDto> of(
-                        "<vaadin-vertical-layout style=\"align-items: center;\" theme=\"spacing\">"
+                        "<vaadin-vertical-layout style=\"align-items: center;\" >"
                                 + "<vaadin-avatar img=\"${item.homeLogo}\" alt=\"User avatar\"></vaadin-avatar>")
                 .withProperty("homeLogo", UserPredictionDto::getHomeLogo);
     }
@@ -83,25 +82,66 @@ public class UserPredictionView {
     private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionUpdateHomeTeam = (
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
+        int result = userPredictionsDto.getResult();
         String theme;
         String style;
-        switch (prediction) {
-            case "home" -> {
-                theme = String.format("badge %s", "success");
-                style = TeamValues.BOLD.getValues();
+        String size;
+        if (result > 0) {
+            switch (result) {
+                case 1 -> {
+                    if (prediction.equals("home")) {
+                        theme = TeamValues.PREDICTION_GOOD.getValues();
+                        style = TeamValues.BOLD.getValues();
+                        size = TeamValues.PX_14.getValues();
+                    } else {
+                        theme = TeamValues.BLACK.getValues();
+                        style = TeamValues.NORMAL.getValues();
+                        size = TeamValues.PX_12.getValues();
+                    }
+                }
+                case 2 -> {
+                    style = TeamValues.NORMAL.getValues();
+                    size = TeamValues.PX_12.getValues();
+                    if (prediction.equals("home")) {
+                        theme = TeamValues.PREDICTION_BAD.getValues();
+                    } else {
+                        theme = TeamValues.BLACK.getValues();
+                    }
+                }
+                case 3 -> {
+                    style = TeamValues.BOLD.getValues();
+                    size = TeamValues.PX_14.getValues();
+                    if (prediction.equals("draw")) {
+                        theme = TeamValues.PREDICTION_GOOD.getValues();
+                    } else {
+                        if (prediction.equals("home")) {
+                            theme = TeamValues.PREDICTION_BAD.getValues();
+                        } else {
+                            theme = TeamValues.BLACK.getValues();
+                        }
+                    }
+                }
+                default -> {
+                    theme = TeamValues.BLACK.getValues();
+                    style = TeamValues.NORMAL.getValues();
+                    size = TeamValues.PX_12.getValues();
+                }
             }
-            case "away" -> {
-                theme = String.format("badge %s", "error");
+        } else {
+            if (prediction.equals("home") || (prediction.equals("draw"))) {
+                theme = TeamValues.BLUE.getValues();
+                style = TeamValues.BOLD.getValues();
+                size = TeamValues.PX_14.getValues();
+            } else {
+                theme = TeamValues.BLACK.getValues();
                 style = TeamValues.NORMAL.getValues();
-            }
-            default -> {
-                theme = String.format("badge %s", "contrast");
-                style = TeamValues.BOLD.getValues();
+                size = TeamValues.PX_12.getValues();
             }
         }
-        span.getElement().setAttribute("theme", theme);
-        span.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        span.getElement().getStyle().set("color", theme);
+        span.getElement().getStyle().set("font-size", size);
         span.getElement().getStyle().set("font-weight", style);
+        span.getElement().getStyle().set("theme", "wrap-cell-content");
         span.setText(userPredictionsDto.getHomeTeam());
     };
 
@@ -112,25 +152,66 @@ public class UserPredictionView {
     private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionUpdateAwayTeam = (
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
+        int result = userPredictionsDto.getResult();
         String theme;
         String style;
-        switch (prediction) {
-            case "home" -> {
-                theme = String.format("badge %s", "error");
+        String size;
+        if (result > 0) {
+            switch (result) {
+                case 2 -> {
+                    if (prediction.equals("away")) {
+                        theme = TeamValues.PREDICTION_GOOD.getValues();
+                        style = TeamValues.BOLD.getValues();
+                        size = TeamValues.PX_14.getValues();
+                    } else {
+                        theme = TeamValues.BLACK.getValues();
+                        style = TeamValues.NORMAL.getValues();
+                        size = TeamValues.PX_12.getValues();
+                    }
+                }
+                case 1 -> {
+                    style = TeamValues.NORMAL.getValues();
+                    size = TeamValues.PX_12.getValues();
+                    if (prediction.equals("away")) {
+                        theme = TeamValues.PREDICTION_BAD.getValues();
+                    } else {
+                        theme = TeamValues.BLACK.getValues();
+                    }
+                }
+                case 3 -> {
+                    style = TeamValues.BOLD.getValues();
+                    size = TeamValues.PX_14.getValues();
+                    if (prediction.equals("draw")) {
+                        theme = TeamValues.PREDICTION_GOOD.getValues();
+                    } else {
+                        if (prediction.equals("away")) {
+                            theme = TeamValues.PREDICTION_BAD.getValues();
+                        } else {
+                            theme = TeamValues.BLACK.getValues();
+                        }
+                    }
+                }
+                default -> {
+                    theme = TeamValues.BLACK.getValues();
+                    size = TeamValues.PX_12.getValues();
+                    style = TeamValues.NORMAL.getValues();
+                }
+            }
+        } else {
+            if (prediction.equals("away")) {
+                theme = TeamValues.BLUE.getValues();
+                style = TeamValues.BOLD.getValues();
+                size = TeamValues.PX_14.getValues();
+            } else {
+                theme = TeamValues.BLACK.getValues();
                 style = TeamValues.NORMAL.getValues();
-            }
-            case "away" -> {
-                theme = String.format("badge %s", "success");
-                style = TeamValues.BOLD.getValues();
-            }
-            default -> {
-                theme = String.format("badge %s", "contrast");
-                style = TeamValues.BOLD.getValues();
+                size = TeamValues.PX_12.getValues();
             }
         }
-        span.getElement().setAttribute("theme", theme);
-        span.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        span.getElement().getStyle().set("color", theme);
+        span.getElement().getStyle().set("font-size", size);
         span.getElement().getStyle().set("font-weight", style);
+        span.getElement().getStyle().set("theme", "wrap-cell-content");
         span.setText(userPredictionsDto.getAwayTeam());
     };
 
@@ -142,20 +223,20 @@ public class UserPredictionView {
             span, userPredictionsDto) -> {
         String theme;
         String sign;
-        if (userPredictionsDto.getResult() > 0) {
-            theme = String.format("badge %s", "success");
+        if (userPredictionsDto.getPoints() > 0) {
+            theme = TeamValues.PREDICTION_GOOD.getValues();
             sign = "+";
-        } else if (userPredictionsDto.getResult() < 0) {
-            theme = String.format("badge %s", "error");
+        } else if (userPredictionsDto.getPoints() < 0) {
+            theme = TeamValues.PREDICTION_BAD.getValues();
             sign = "";
         } else {
-            theme = String.format("badge %s", "contrast");
+            theme = TeamValues.BLACK.getValues();
             sign = "";
         }
-        span.getElement().setAttribute("theme", theme);
-        span.getElement().getStyle().set("font-size", TeamValues.PX_24.getValues());
+        span.getElement().getStyle().set("color", theme);
+        span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
         span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
-        span.setText(sign + userPredictionsDto.getResult());
+        span.setText(sign + userPredictionsDto.getPoints());
     };
 
     private static ComponentRenderer<Span, UserPredictionDto> createResultRenderer() {

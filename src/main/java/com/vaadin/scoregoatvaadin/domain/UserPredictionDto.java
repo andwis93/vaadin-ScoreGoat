@@ -21,5 +21,6 @@ public class UserPredictionDto {
     private String awayTeam;
     private String awayLogo;
     private String prediction;
-    private int result;
+    private int points;
+    private int result = -1;
 }

@@ -60,7 +60,7 @@ public class LeftBarView extends HorizontalLayout{
     private VerticalLayout setButton(Button button, String leagueLogo) {
         VerticalLayout vl = new VerticalLayout(button);
         team.setLeagueBtn(button);
-        button.setIcon(image.setImage(leagueLogo));
+        button.setIcon(image.setLeagueLogo(leagueLogo));
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
         return vl;
     }

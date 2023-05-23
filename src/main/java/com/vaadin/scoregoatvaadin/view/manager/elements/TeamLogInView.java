@@ -62,7 +62,7 @@ public class TeamLogInView {
         button.setSizeUndefined();
         button.getStyle().set("color", TeamValues.BLACK.getValues());
         button.getStyle().set("background", TeamValues.USER_BUTTON.getValues());
-        button.getStyle().set("font-size", TeamValues.PX_18.getValues());
+        button.getStyle().set("font-size", TeamValues.PX_14.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 }

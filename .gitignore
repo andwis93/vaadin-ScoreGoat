@@ -28,8 +28,6 @@ out/
 !**/src/test/**/out/
 **/out/
 **/build/
-frontend/
-target/
 
 ### NetBeans ###
 /nbproject/private/

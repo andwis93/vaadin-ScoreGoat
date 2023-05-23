@@ -24,14 +24,12 @@ public class MainView extends HorizontalLayout {
     private final LeftBarView leftBar = new LeftBarView(this);
     private final HorizontalLayout accountLayout = new HorizontalLayout();
     private final HorizontalLayout toolbar = new HorizontalLayout();
-
     private final DoubleLayout doubleLayout = new DoubleLayout(this);
     private final VerticalLayout mainContent = new VerticalLayout();
     private LogInView loginView = new LogInView(this);
     private SignUpView signUpView = new SignUpView(this);
     private AccountView accountView = new AccountView(this);
     private PasswordView changePasswordView = new PasswordView(this);
-
     private final MatchList matchList = new MatchList();
     private User user;
 

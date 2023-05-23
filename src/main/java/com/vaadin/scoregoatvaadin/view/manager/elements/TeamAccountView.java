@@ -13,6 +13,7 @@ public class TeamAccountView {
     public void setMineLayout(VerticalLayout vl) {
         vl.getStyle().set("background", TeamValues.ACCOUNT_LAYOUTS.getValues());
         vl.setSizeUndefined();
+        vl.setHeightFull();
     }
 
     public void setText(TextField text) {

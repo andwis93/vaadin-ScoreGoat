@@ -24,8 +24,8 @@ public class TeamMatchView {
 
     public void setCenterLayout(VerticalLayout vl) {
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
-        vl.setWidth(TeamValues.EM_7.getValues());
-        vl.setHeight(TeamValues.EM_3.getValues());
+        vl.setWidth(TeamValues.EM_5.getValues());
+        vl.setHeight(TeamValues.EM_2.getValues());
         vl.getStyle().set("background", TeamValues.DOUBLE_LAYOUT.getValues());
         vl.setSpacing(false);
         vl.setPadding(false);
@@ -41,7 +41,7 @@ public class TeamMatchView {
         button.setWidth(TeamValues.EM_12.getValues());
         button.setHeight(TeamValues.EM_3.getValues());
         button.getStyle().set("color", TeamValues.BLACK.getValues());
-        button.getStyle().set("font-size", TeamValues.PX_18.getValues());
+        button.getStyle().set("font-size", TeamValues.PX_14.getValues());
         button.getStyle().set("font-weight", TeamValues.BOLD.getValues());
         button.getStyle().set("background", TeamValues.TEAM_BUTTON.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
@@ -49,12 +49,12 @@ public class TeamMatchView {
 
     public void setData(Label label) {
         label.getElement().getStyle().set("color", TeamValues.ORANGE.getValues());
-        label.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        label.getElement().getStyle().set("font-size", TeamValues.PX_12.getValues());
     }
 
     public void setTime(Label label) {
         label.getElement().getStyle().set("color", TeamValues.WHITE.getValues());
-        label.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        label.getElement().getStyle().set("font-size", TeamValues.PX_12.getValues());
         label.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
     }
 }
