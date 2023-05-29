@@ -6,6 +6,7 @@ import com.vaadin.scoregoatvaadin.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -61,13 +62,30 @@ public class ScoreGoatClient {
         }
     }
 
-    public boolean changeAccountValues(AccountDto accountDto){
+    private URI createUriForAccountChange(AccountDto accountDto) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/users/accountchange")
+                .queryParam("userId", accountDto.getUserId())
+                .queryParam("userName", accountDto.getUserName())
+                .queryParam("email", accountDto.getEmail())
+                .queryParam("password", accountDto.getPassword())
+                .build().encode().toUri();
+    }
+
+    private HttpEntity<AccountDto> passHeaders(AccountDto accountDto){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        return new HttpEntity<AccountDto>(accountDto, headers);
+    }
+
+    public UserRespondDto changeAccountValues(AccountDto accountDto){
         try {
-            restTemplate.put(createUri() + "/users/accountchange", accountDto);
-            return true;
+        ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForAccountChange(accountDto),
+                HttpMethod.PUT, passHeaders(accountDto), UserRespondDto.class);
+            return response.getBody();
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return false;
+            return new UserRespondDto(Messages.ACCOUNT_UPDATED_BAD.getMessage(), NotificationTypes.ERROR.getType());
         }
     }
 
@@ -114,7 +132,6 @@ public class ScoreGoatClient {
             return Optional.ofNullable(boardsRespond)
                     .map(Arrays::asList)
                     .orElse(Collections.emptyList());
-
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();

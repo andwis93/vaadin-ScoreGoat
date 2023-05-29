@@ -92,24 +92,27 @@ public class AccountView extends VerticalLayout {
         accountDto.setEmail(email.getValue());
         accountDto.setPassword(password.getValue());
 
-        if (mainView.getFacade().changeAccountValues(accountDto)) {
+        UserRespondDto respondDto = mainView.getFacade().changeAccountValues(accountDto);
+        mainView.getLeftBar().getUserView().getUserLabel().setText(accountDto.getUserName());
+        mainView.getUser().setName(accountDto.getUserName());
+        mainView.getUser().setEmail(accountDto.getEmail());
+        mainView.getUser().setId(accountDto.getUserId());
 
-            mainView.getLeftBar().getUserView().getUserLabel().setText(accountDto.getUserName());
-            mainView.getUser().setName(accountDto.getUserName());
-            mainView.getUser().setEmail(accountDto.getEmail());
-            mainView.getUser().setId(accountDto.getUserId());
-
-            team.setAcceptBtn(update);
-            team.setNotEnableBtn(accept);
-            name.setEnabled(false);
-            email.setEnabled(false);
-            password.setEnabled(false);
-            update.setEnabled(true);
-            accept.setEnabled(false);
-
-            notification.good(Messages.ACCOUNT_UPDATED_OK.getMessage());
+        team.setAcceptBtn(update);
+        team.setNotEnableBtn(accept);
+        name.setEnabled(false);
+        email.setEnabled(false);
+        password.setEnabled(false);
+        update.setEnabled(true);
+        accept.setEnabled(false);
+        if (respondDto.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
+            notification.good(respondDto.getRespond());
         } else {
-            notification.bad(Messages.ACCOUNT_UPDATED_BAD.getMessage());
+            if (respondDto.getNotificationType().equals(NotificationTypes.ERROR.getType())) {
+                notification.bad(respondDto.getRespond());
+            } else {
+                notification.neutral(respondDto.getRespond());
+            }
         }
     }
 

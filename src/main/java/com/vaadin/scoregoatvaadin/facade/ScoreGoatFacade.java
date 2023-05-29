@@ -30,7 +30,7 @@ public class ScoreGoatFacade {
         return scoreGoatClient.changePassword(passwordDto);
     }
 
-    public boolean changeAccountValues(AccountDto accountDto) {
+    public UserRespondDto changeAccountValues(AccountDto accountDto) {
         return scoreGoatClient.changeAccountValues(accountDto);
     }
 

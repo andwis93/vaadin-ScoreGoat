@@ -17,7 +17,13 @@ public class UserRespondDto {
     private String email;
     private boolean isLogIn = false;
     private String respond;
+    private String notificationType;
     private String oldPassword;
     private String newPassword;
     private String repeatPassword;
+
+    public UserRespondDto(String respond, String notificationType) {
+        this.respond = respond;
+        this.notificationType = notificationType;
+    }
 }
