@@ -48,9 +48,4 @@ public class TeamSignUpView {
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
-
-    public void setInfoLabelError(Label label) {
-        label.setWidth(TeamValues.EM_16.getValues());
-        label.getStyle().set("color", TeamValues.RED.getValues());
-    }
 }

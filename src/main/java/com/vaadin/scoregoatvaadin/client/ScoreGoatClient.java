@@ -25,9 +25,17 @@ public class ScoreGoatClient {
                 .build().encode().toUri();
     }
 
-    public UserRespondDto logIn(UserParamDto userparam){
+    private URI createUriForLogIn(UserParamDto userParamDto) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                         "/login")
+                .queryParam("name", userParamDto.getName())
+                .queryParam("password", userParamDto.getPassword())
+                .build().encode().toUri();
+    }
+
+    public UserRespondDto logIn(UserParamDto userParamDto){
         try {
-            return restTemplate.postForObject(createUri() + "/login", userparam, UserRespondDto.class);
+            return restTemplate.getForObject(createUriForLogIn(userParamDto), UserRespondDto.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
@@ -43,21 +51,23 @@ public class ScoreGoatClient {
         }
     }
 
-    public UserRespondDto changePassword(PasswordDto passwordDto){
+    public boolean changePassword(PasswordDto passwordDto){
         try {
-            return restTemplate.postForObject(createUri() + "/users/passwordchange", passwordDto, UserRespondDto.class);
+            restTemplate.put(createUri() + "/users/passwordchange", passwordDto);
+            return true;
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return false;
         }
     }
 
-    public UserRespondDto changeAccountValues(AccountDto accountDto){
+    public boolean changeAccountValues(AccountDto accountDto){
         try {
-            return restTemplate.postForObject(createUri() + "/users/accountchange", accountDto, UserRespondDto.class);
+            restTemplate.put(createUri() + "/users/accountchange", accountDto);
+            return true;
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return false;
         }
     }
 
@@ -69,9 +79,9 @@ public class ScoreGoatClient {
                 .build().encode().toUri();
     }
 
-    public List<Match> getMatchesByLeagueId(long userId, int leagueId){
+        public List<Match> getMatchesByLeagueId(long userId, int leagueId){
         try {
-            Match[] boardsRespond = restTemplate.postForObject(createUriForMatches(userId, leagueId), null, Match[].class);
+            Match[] boardsRespond = restTemplate.getForObject(createUriForMatches(userId, leagueId), Match[].class);
             return Optional.ofNullable(boardsRespond)
                     .map(Arrays::asList)
                     .orElse(Collections.emptyList());
@@ -86,7 +96,7 @@ public class ScoreGoatClient {
           return restTemplate.postForObject(createUri() + "/prediction", predictionDto, NotificationRespond.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return new NotificationRespond("Something Went Wrong - couldn't save predictions",
+            return new NotificationRespond(Messages.SAVE_PREDICTIONS_BAD.getMessage(),
                     NotificationVariant.LUMO_ERROR.getVariantName());
         }
     }

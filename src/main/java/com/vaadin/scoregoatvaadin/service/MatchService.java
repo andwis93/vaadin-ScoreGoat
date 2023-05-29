@@ -1,8 +1,7 @@
 package com.vaadin.scoregoatvaadin.service;
 
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.scoregoatvaadin.domain.NotificationTypes;
 import com.vaadin.scoregoatvaadin.domain.Match;
 import com.vaadin.scoregoatvaadin.domain.Messages;
 import com.vaadin.scoregoatvaadin.domain.NotificationRespond;
@@ -44,27 +43,25 @@ public class MatchService {
             matchList.put(match.getId(),"");
             vl.add(new MatchView(match, mainView));
         }
-
         team.setVerticalLayout(vl);
         mainView.getMatchList().setMatchList(matchList);
         return vl;
     }
 
     public void saveExecution(){
-        NotificationSelection selection = new NotificationSelection();
+        NotificationService notification = new NotificationService();
         if ((mainView.getUser() != null) && (mainView.getUser().getId() != null)) {
             PredictionDto predictionDto = new PredictionDto(mainView.getUser().getId(), mainView.getMatchList().getLeagueId(),
                     mainView.getMatchList().getMatchList());
             NotificationRespond respond = mainView.getFacade().saveUserPredictions(predictionDto);
             mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
-            Notification notification = Notification.show(respond.getMessage());
-            notification.setPosition(Notification.Position.MIDDLE);
-            notification.addThemeVariants(selection.selectVariant(respond.getType()));
-
+            if(respond.getType().equals(NotificationTypes.SUCCESS.getType())) {
+                notification.good(respond.getMessage());
+            } else {
+                notification.bad(respond.getMessage());
+            }
         } else {
-            Notification notification = Notification.show(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
-            notification.setPosition(Notification.Position.MIDDLE);
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
         }
     }
 }

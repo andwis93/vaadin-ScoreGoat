@@ -2,10 +2,10 @@ package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.scoregoatvaadin.domain.*;
+import com.vaadin.scoregoatvaadin.service.NotificationService;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamPasswordView;
 import java.util.Objects;
 
@@ -15,7 +15,6 @@ public class PasswordView extends VerticalLayout {
     private final PasswordField repeatPassword = new PasswordField(Names.REPEAT_PASSWORD.getValue());
     private final Button accept = new Button(Names.ACCEPT.getValue());
     private final Button cancel = new Button(Names.CANCEL.getValue());
-    private final Label info = new Label();
     private final TeamPasswordView team = new TeamPasswordView();
     private final MainView mainView;
 
@@ -36,7 +35,6 @@ public class PasswordView extends VerticalLayout {
         team.setPassword(repeatPassword);
         team.setAcceptBtn(accept);
         team.setCloseBtn(cancel);
-        team.setInfoLabelError(info);
         team.setSecondaryLayout(vl);
         accept.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
@@ -46,30 +44,32 @@ public class PasswordView extends VerticalLayout {
                 newPassword,
                 repeatPassword,
                 accept,
-                cancel,
-                info);
+                cancel
+        );
 
         return vl;
     }
 
     private void changePassword(){
+        NotificationService notification = new NotificationService();
         if (!Objects.equals(oldPassword.getValue(), "") && !Objects.equals(newPassword.getValue(), "")
-                && !Objects.equals(repeatPassword.getValue(), "")) {
-            UserRespondDto respond = mainView.getFacade().changePassword(new PasswordDto(mainView.getUser().getId(),
+                && !Objects.equals(repeatPassword.getValue(), "") &&
+                Objects.equals(newPassword.getValue(), repeatPassword.getValue())) {
+            boolean respond = mainView.getFacade().changePassword(new PasswordDto(mainView.getUser().getId(),
                     oldPassword.getValue(), newPassword.getValue(), repeatPassword.getValue()));
-            if (respond != null) {
-                changePasswordExecution(respond);
+            if (respond) {
+                changePasswordExecution();
             } else {
-                info.setText(Messages.PASSWORD_CHANGE_ERROR.getMessage());
-                team.setInfoLabelError(info);
+                notification.bad(Messages.PASSWORD_CHANGE_ERROR.getMessage());
             }
+        } else {
+            notification.neutral(Messages.FILL_ALL_FIELDS.getMessage());
         }
     }
 
-    private void changePasswordExecution(UserRespondDto respond) {
-        info.setText(respond.getRespond());
-        team.setInfoLabel(info);
+    private void changePasswordExecution() {
+        NotificationService notification = new NotificationService();
+        notification.good(Messages.PASSWORD_CHANGE_OK.getMessage());
         mainView.getAccountLayout().remove(this);
     }
-
 }

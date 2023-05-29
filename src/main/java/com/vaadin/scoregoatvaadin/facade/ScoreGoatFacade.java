@@ -26,11 +26,11 @@ public class ScoreGoatFacade {
         return scoreGoatClient.logIn(userParam);
     }
 
-    public UserRespondDto changePassword(PasswordDto passwordDto) {
+    public boolean changePassword(PasswordDto passwordDto) {
         return scoreGoatClient.changePassword(passwordDto);
     }
 
-    public UserRespondDto changeAccountValues(AccountDto accountDto) {
+    public boolean changeAccountValues(AccountDto accountDto) {
         return scoreGoatClient.changeAccountValues(accountDto);
     }
 

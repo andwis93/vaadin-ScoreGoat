@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -54,15 +54,5 @@ public class TeamAccountView {
         button.getStyle().set("background", TeamValues.DARK_SALMON.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
-    }
-
-    public void setInfoLabel(Label label) {
-        label.setWidth(TeamValues.EM_16.getValues());
-        label.getStyle().set("color", TeamValues.BLACK.getValues());
-    }
-
-    public void setInfoLabelError(Label label) {
-        label.setWidth(TeamValues.EM_16.getValues());
-        label.getStyle().set("color", TeamValues.RED.getValues());
     }
 }

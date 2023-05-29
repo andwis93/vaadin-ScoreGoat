@@ -2,11 +2,11 @@ package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.scoregoatvaadin.domain.*;
+import com.vaadin.scoregoatvaadin.service.NotificationService;
 import com.vaadin.scoregoatvaadin.view.manager.UserManager;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamLogInView;
 import java.util.Objects;
@@ -17,7 +17,6 @@ public class LogInView extends VerticalLayout {
     private final Button logIn = new Button(Names.LOG_IN.getValue());
     private final Button cancel = new Button(Names.CANCEL.getValue());
     private final Button signUp = new Button(Names.SIGN_UP.getValue());
-    private final Label info = new Label();
     private final TeamLogInView team = new TeamLogInView();
     private final UserManager userManager = new UserManager();
     private final LeftBarView leftBarView;
@@ -45,18 +44,20 @@ public class LogInView extends VerticalLayout {
     }
 
     private void logIn(){
+        NotificationService notification = new NotificationService();
         if (!Objects.equals(name.getValue(), "") && !Objects.equals(password.getValue(), "")) {
             UserRespondDto respond = mainView.getFacade().logIn(new UserParamDto(name.getValue(), password.getValue()));
             if (respond != null) {
                 if (respond.isLogIn()) {
                     logInExecution(respond);
                 } else {
-                    info.setText(respond.getRespond());
-                    team.setInfoLabelError(info);
+                    notification.bad(respond.getRespond());
                 }
             } else {
-                info.setText(Messages.LOG_IN_VIEW_LOG_IN_ERROR.getMessage());
+                notification.bad(Messages.LOG_IN_BAD.getMessage());
             }
+        }else {
+            notification.neutral(Messages.FILL_ALL_FIELDS.getMessage());
         }
     }
 
@@ -67,7 +68,6 @@ public class LogInView extends VerticalLayout {
         team.setAcceptBtn(logIn);
         team.setCloseBtn(cancel);
         team.setAcceptBtn(signUp);
-        team.setInfoLabelError(info);
         logIn.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         vl.add(
@@ -75,24 +75,23 @@ public class LogInView extends VerticalLayout {
                 password,
                 logIn,
                 cancel,
-                signUp,
-                info
+                signUp
         );
         team.setSecondaryLayout(vl);
         return vl;
     }
 
     private void logInExecution(UserRespondDto respond) {
+        NotificationService notification = new NotificationService();
         mainView.setUser(userManager.setUser(respond));
         mainView.getAccountLayout().remove(this);
         mainView.getDoubleLayout().removeAll();
         leftBarView.getUserView().getUserLabel().setText(respond.getUserName());
         leftBarView.getUserView().getLogButton().setText(Names.LOG_OUT.getValue());
         leftBarView.getUserView().getYourAccount().setEnabled(true);
-        info.setText(respond.getRespond());
         team.setGeneralBtnWarningColor(leftBarView.getUserView().getLogButton());
         team.setGeneralBtn(leftBarView.getUserView().getYourAccount());
-        team.setInfoLabel(info);
+        notification.good(respond.getRespond());
     }
 
     public void logInExecute() {

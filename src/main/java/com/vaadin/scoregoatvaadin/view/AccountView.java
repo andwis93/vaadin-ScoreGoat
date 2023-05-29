@@ -2,12 +2,12 @@ package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.scoregoatvaadin.domain.*;
+import com.vaadin.scoregoatvaadin.service.NotificationService;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamAccountView;
 import lombok.Getter;
 
@@ -20,7 +20,6 @@ public class AccountView extends VerticalLayout {
     private final Button accept = new Button(Names.ACCEPT.getValue());
     private final Button changePassword = new Button(Names.CHANGE_PASSWORD.getValue());
     private final Button close = new Button(Names.CLOSE.getValue());
-    private final Label info = new Label();
     private final MainView mainView;
     private final PasswordView changePasswordView;
     private final TeamAccountView team = new TeamAccountView();
@@ -69,8 +68,7 @@ public class AccountView extends VerticalLayout {
                 update,
                 accept,
                 changePassword,
-                close,
-                info
+                close
         );
         vl.getStyle().set("background", TeamValues.WHITE.getValues());
         return vl;
@@ -87,29 +85,32 @@ public class AccountView extends VerticalLayout {
     }
 
     private void changeExecution() {
+        NotificationService notification = new NotificationService();
         AccountDto accountDto = new AccountDto();
         accountDto.setUserId(mainView.getUser().getId());
         accountDto.setUserName(name.getValue());
         accountDto.setEmail(email.getValue());
         accountDto.setPassword(password.getValue());
 
-        UserRespondDto userRespondDto = mainView.getFacade().changeAccountValues(accountDto);
+        if (mainView.getFacade().changeAccountValues(accountDto)) {
 
-        mainView.getLeftBar().getUserView().getUserLabel().setText(userRespondDto.getUserName());
-        mainView.getUser().setName(userRespondDto.getUserName());
-        mainView.getUser().setEmail(userRespondDto.getEmail());
-        mainView.getUser().setId(userRespondDto.getId());
+            mainView.getLeftBar().getUserView().getUserLabel().setText(accountDto.getUserName());
+            mainView.getUser().setName(accountDto.getUserName());
+            mainView.getUser().setEmail(accountDto.getEmail());
+            mainView.getUser().setId(accountDto.getUserId());
 
-        team.setAcceptBtn(update);
-        team.setNotEnableBtn(accept);
-        name.setEnabled(false);
-        email.setEnabled(false);
-        password.setEnabled(false);
-        update.setEnabled(true);
-        accept.setEnabled(false);
+            team.setAcceptBtn(update);
+            team.setNotEnableBtn(accept);
+            name.setEnabled(false);
+            email.setEnabled(false);
+            password.setEnabled(false);
+            update.setEnabled(true);
+            accept.setEnabled(false);
 
-        team.setInfoLabel(info);
-        info.setText(userRespondDto.getRespond());
+            notification.good(Messages.ACCOUNT_UPDATED_OK.getMessage());
+        } else {
+            notification.bad(Messages.ACCOUNT_UPDATED_BAD.getMessage());
+        }
     }
 
     public AccountView setAccountView() {
@@ -117,13 +118,13 @@ public class AccountView extends VerticalLayout {
     }
 
     public void acceptExecution(){
+        NotificationService notification = new NotificationService();
         mainView.getAccountLayout().add(setAccountView());
         if (mainView.getUser().getId() != null) {
             if (!name.getValue().equals("") && !email.getValue().equals("") && !password.getValue().equals("")) {
                 changeExecution();
             } else {
-                team.setInfoLabelError(info);
-                info.setText(Messages.ACCOUNT_VIEW_ENTER_VALUE.getMessage());
+                notification.neutral(Messages.ACCOUNT_VIEW_ENTER_VALUE.getMessage());
             }
         }
     }

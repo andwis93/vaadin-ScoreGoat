@@ -1,7 +1,6 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,16 +15,6 @@ public class TeamLogInView {
 
     public void setSecondaryLayout(VerticalLayout vl) {
         vl.getStyle().set("background", TeamValues.WHITE.getValues());
-    }
-
-    public void setInfoLabel(Label label) {
-        label.setWidth(TeamValues.EM_16.getValues());
-        label.getStyle().set("color", TeamValues.BLACK.getValues());
-    }
-
-    public void setInfoLabelError(Label label) {
-        label.setWidth(TeamValues.EM_16.getValues());
-        label.getStyle().set("color", TeamValues.RED.getValues());
     }
 
     public void setText(TextField text) {
