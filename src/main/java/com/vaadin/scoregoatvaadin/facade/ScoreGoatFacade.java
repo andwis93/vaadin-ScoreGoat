@@ -22,8 +22,8 @@ public class ScoreGoatFacade {
         return scoreGoatClient.createUser(userDto);
     }
 
-    public UserRespondDto logIn(UserParamDto userParam) {
-        return scoreGoatClient.logIn(userParam);
+    public UserRespondDto logIn(UserDto userDto) {
+        return scoreGoatClient.logIn(userDto);
     }
 
     public boolean changePassword(PasswordDto passwordDto) {

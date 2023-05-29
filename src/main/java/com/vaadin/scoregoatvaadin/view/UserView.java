@@ -26,6 +26,7 @@ public class UserView extends VerticalLayout {
         team.setGeneraNotEnableBtn(yourAccount);
         setAlignItems(Alignment.CENTER);
         setSizeUndefined();
+        yourAccount.setEnabled(false);
         add(
                 userLabel,
                 logButton,
@@ -52,6 +53,7 @@ public class UserView extends VerticalLayout {
         logButton.setText(Names.LOG_IN.getValue());
         team.setGeneralBtn(logButton);
         team.setGeneraNotEnableBtn(yourAccount);
+        yourAccount.setEnabled(false);
         mainView.setUser(null);
     }
 

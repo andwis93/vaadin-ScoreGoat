@@ -26,17 +26,17 @@ public class ScoreGoatClient {
                 .build().encode().toUri();
     }
 
-    private URI createUriForLogIn(UserParamDto userParamDto) {
+    private URI createUriForLogIn(UserDto userDto) {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
                          "/login")
-                .queryParam("name", userParamDto.getName())
-                .queryParam("password", userParamDto.getPassword())
+                .queryParam("name", userDto.getName())
+                .queryParam("password", userDto.getPassword())
                 .build().encode().toUri();
     }
 
-    public UserRespondDto logIn(UserParamDto userParamDto){
+    public UserRespondDto logIn(UserDto userDto){
         try {
-            return restTemplate.getForObject(createUriForLogIn(userParamDto), UserRespondDto.class);
+            return restTemplate.getForObject(createUriForLogIn(userDto), UserRespondDto.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return null;

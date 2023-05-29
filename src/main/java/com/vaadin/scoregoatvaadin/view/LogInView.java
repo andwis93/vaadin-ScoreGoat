@@ -46,7 +46,7 @@ public class LogInView extends VerticalLayout {
     private void logIn(){
         NotificationService notification = new NotificationService();
         if (!Objects.equals(name.getValue(), "") && !Objects.equals(password.getValue(), "")) {
-            UserRespondDto respond = mainView.getFacade().logIn(new UserParamDto(name.getValue(), password.getValue()));
+            UserRespondDto respond = mainView.getFacade().logIn(new UserDto(name.getValue(), password.getValue()));
             if (respond != null) {
                 if (respond.isLogIn()) {
                     logInExecution(respond);
