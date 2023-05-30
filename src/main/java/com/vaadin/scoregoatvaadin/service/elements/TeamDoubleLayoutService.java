@@ -11,7 +11,7 @@ public class TeamDoubleLayoutService {
         button.setHeight(TeamValues.EM_2.getValues());
         button.getStyle().set("font-size", TeamValues.PX_24.getValues());
         button.getStyle().set("color", TeamValues.WHITE.getValues());
-        button.getStyle().set("background",  TeamValues.SAVE_BUTTON.getValues());
+        button.getStyle().set("background",  TeamValues.USER_BUTTON.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 

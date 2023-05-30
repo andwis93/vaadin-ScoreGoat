@@ -8,7 +8,6 @@ import com.vaadin.scoregoatvaadin.domain.*;
 import com.vaadin.scoregoatvaadin.facade.ScoreGoatFacade;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamMainView;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Getter
@@ -18,8 +17,7 @@ import org.springframework.stereotype.Component;
 @Route
 @PageTitle("ScoreGoat")
 public class MainView extends HorizontalLayout {
-    @Autowired
-    private ScoreGoatFacade facade;
+    private final ScoreGoatFacade facade;
     private final TeamMainView team = new TeamMainView();
     private final LeftBarView leftBar = new LeftBarView(this);
     private final HorizontalLayout accountLayout = new HorizontalLayout();
@@ -30,10 +28,11 @@ public class MainView extends HorizontalLayout {
     private SignUpView signUpView = new SignUpView(this);
     private AccountView accountView = new AccountView(this);
     private PasswordView changePasswordView = new PasswordView(this);
+    private DeleteView deleteView = new DeleteView(this);
     private final MatchList matchList = new MatchList();
     private User user;
 
-    public MainView() {
+    public MainView(ScoreGoatFacade facade) {
         setSizeFull();
         setSpacing(false);
         add(
@@ -41,6 +40,7 @@ public class MainView extends HorizontalLayout {
                 accountLayout,
                 setMainContent()
         );
+        this.facade = facade;
     }
 
     private VerticalLayout setMainContent() {
@@ -68,5 +68,8 @@ public class MainView extends HorizontalLayout {
     }
     public PasswordView setChangePasswordView(){
        return this.changePasswordView = new PasswordView(this);
+    }
+    public DeleteView setDeleteView(){
+        return this.deleteView = new DeleteView(this);
     }
 }

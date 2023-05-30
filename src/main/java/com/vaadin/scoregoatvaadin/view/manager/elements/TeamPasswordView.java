@@ -33,7 +33,7 @@ public class TeamPasswordView {
         button.setWidth(TeamValues.EM_14.getValues());
         button.setHeight(TeamValues.EM_3.getValues());
         button.getStyle().set("color", TeamValues.WHITE.getValues());
-        button.getStyle().set("background", TeamValues.DARK_SALMON.getValues());
+        button.getStyle().set("background", TeamValues.USER_BUTTON.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }

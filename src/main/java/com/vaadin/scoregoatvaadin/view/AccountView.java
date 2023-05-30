@@ -20,6 +20,7 @@ public class AccountView extends VerticalLayout {
     private final Button accept = new Button(Names.ACCEPT.getValue());
     private final Button changePassword = new Button(Names.CHANGE_PASSWORD.getValue());
     private final Button close = new Button(Names.CLOSE.getValue());
+    private final Button delete = new Button(Names.DELETE.getValue());
     private final MainView mainView;
     private final PasswordView changePasswordView;
     private final TeamAccountView team = new TeamAccountView();
@@ -37,11 +38,17 @@ public class AccountView extends VerticalLayout {
         accept.addClickListener(event -> acceptExecution());
         changePassword.addClickListener(event -> changePasswordExecute());
         close.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        delete.addClickListener(event -> deleteExecution());
     }
 
     private void changePasswordExecute() {
         mainView.getAccountLayout().remove(this);
         mainView.getAccountLayout().add(mainView.setChangePasswordView());
+    }
+
+    private void deleteExecution() {
+        mainView.getAccountLayout().remove(this);
+        mainView.getAccountLayout().add(mainView.setDeleteView());
     }
 
     private VerticalLayout setElements() {
@@ -52,12 +59,13 @@ public class AccountView extends VerticalLayout {
         email.setEnabled(false);
         team.setPassword(password);
         password.setEnabled(false);
-        team.setAcceptBtn(update);
+        team.setGeneralBtn(update);
         update.setEnabled(true);
         team.setNotEnableBtn(accept);
         accept.setEnabled(false);
-        team.setAcceptBtn(changePassword);
+        team.setGeneralBtn(changePassword);
         team.setCloseBtn(close);
+        team.setDeleteBtn(delete);
         update.addClickShortcut(Key.ENTER);
         accept.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
@@ -68,7 +76,8 @@ public class AccountView extends VerticalLayout {
                 update,
                 accept,
                 changePassword,
-                close
+                close,
+                delete
         );
         vl.getStyle().set("background", TeamValues.WHITE.getValues());
         return vl;
@@ -92,26 +101,26 @@ public class AccountView extends VerticalLayout {
         accountDto.setEmail(email.getValue());
         accountDto.setPassword(password.getValue());
 
-        UserRespondDto respondDto = mainView.getFacade().changeAccountValues(accountDto);
+        UserRespondDto respond = mainView.getFacade().changeAccountValues(accountDto);
         mainView.getLeftBar().getUserView().getUserLabel().setText(accountDto.getUserName());
         mainView.getUser().setName(accountDto.getUserName());
         mainView.getUser().setEmail(accountDto.getEmail());
         mainView.getUser().setId(accountDto.getUserId());
 
-        team.setAcceptBtn(update);
+        team.setGeneralBtn(update);
         team.setNotEnableBtn(accept);
         name.setEnabled(false);
         email.setEnabled(false);
         password.setEnabled(false);
         update.setEnabled(true);
         accept.setEnabled(false);
-        if (respondDto.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
-            notification.good(respondDto.getRespond());
+        if (respond.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
+            notification.good(respond.getRespond());
         } else {
-            if (respondDto.getNotificationType().equals(NotificationTypes.ERROR.getType())) {
-                notification.bad(respondDto.getRespond());
+            if (respond.getNotificationType().equals(NotificationTypes.ERROR.getType())) {
+                notification.bad(respond.getRespond());
             } else {
-                notification.neutral(respondDto.getRespond());
+                notification.neutral(respond.getRespond());
             }
         }
     }

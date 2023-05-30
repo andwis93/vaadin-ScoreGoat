@@ -62,17 +62,13 @@ public class ScoreGoatClient {
         }
     }
 
-    private URI createUriForAccountChange(AccountDto accountDto) {
+    private URI createUriForAccountChange() {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
                         "/users/accountchange")
-                .queryParam("userId", accountDto.getUserId())
-                .queryParam("userName", accountDto.getUserName())
-                .queryParam("email", accountDto.getEmail())
-                .queryParam("password", accountDto.getPassword())
                 .build().encode().toUri();
     }
 
-    private HttpEntity<AccountDto> passHeaders(AccountDto accountDto){
+    private HttpEntity<AccountDto> entityForAccountChange(AccountDto accountDto){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         return new HttpEntity<AccountDto>(accountDto, headers);
@@ -80,8 +76,8 @@ public class ScoreGoatClient {
 
     public UserRespondDto changeAccountValues(AccountDto accountDto){
         try {
-        ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForAccountChange(accountDto),
-                HttpMethod.PUT, passHeaders(accountDto), UserRespondDto.class);
+        ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForAccountChange(),
+                HttpMethod.PUT, entityForAccountChange(accountDto), UserRespondDto.class);
             return response.getBody();
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
@@ -135,6 +131,29 @@ public class ScoreGoatClient {
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();
+        }
+    }
+
+    private URI createUriForUserDelete() {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/users")
+                .build().encode().toUri();
+    }
+
+    private HttpEntity<UserDto> entityForUserDelete(UserDto userDto){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        return new HttpEntity<UserDto>(userDto, headers);
+    }
+
+    public UserRespondDto deleteUser(UserDto userDto){
+        try {
+            ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForUserDelete(),
+                    HttpMethod.DELETE, entityForUserDelete(userDto), UserRespondDto.class);
+            return response.getBody();
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new UserRespondDto(Messages.ACCOUNT_UPDATED_BAD.getMessage(), NotificationTypes.ERROR.getType());
         }
     }
 }

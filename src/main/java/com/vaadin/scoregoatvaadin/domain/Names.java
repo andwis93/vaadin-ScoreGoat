@@ -21,7 +21,8 @@ public enum Names {
     ACCEPT("OK"),
     CLOSE("Close"),
     UPDATE("Update"),
-    CHANGE_PASSWORD("Change password");
+    CHANGE_PASSWORD("Change password"),
+    DELETE("DELETE");
 
     private final String value;
 }

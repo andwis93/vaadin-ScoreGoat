@@ -45,4 +45,8 @@ public class ScoreGoatFacade {
     public List<UserPredictionDto> fetchUserPredictions(Long userId, int leagueId) {
         return scoreGoatClient.getUserPredictions(userId, leagueId);
     }
+
+    public UserRespondDto deleteUser(UserDto userDto) {
+        return scoreGoatClient.deleteUser(userDto);
+    }
 }

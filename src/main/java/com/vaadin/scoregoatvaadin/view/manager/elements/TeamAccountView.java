@@ -28,11 +28,20 @@ public class TeamAccountView {
         password.setWidth(TeamValues.EM_16.getValues());
     }
 
-    public void setAcceptBtn(Button button) {
+    public void setGeneralBtn(Button button) {
         button.setWidth(TeamValues.EM_14.getValues());
         button.setHeight(TeamValues.EM_3.getValues());
         button.getStyle().set("color", TeamValues.WHITE.getValues());
         button.getStyle().set("background", TeamValues.MAIN_COLOR.getValues());
+        button.getStyle().set("font-size", TeamValues.PX_18.getValues());
+        button.getStyle().set("cursor", TeamValues.POINTER.getValues());
+    }
+
+    public void setAcceptBtn(Button button) {
+        button.setWidth(TeamValues.EM_14.getValues());
+        button.setHeight(TeamValues.EM_3.getValues());
+        button.getStyle().set("color", TeamValues.WHITE.getValues());
+        button.getStyle().set("background", TeamValues.ACCEPT_BTN.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
@@ -49,8 +58,17 @@ public class TeamAccountView {
 
     public void setCloseBtn(Button button) {
         button.setWidth(TeamValues.EM_14.getValues());
-        button.setHeight(TeamValues.EM_2.getValues());
+        button.setHeight(TeamValues.EM_2_5.getValues());
         button.getStyle().set("color", TeamValues.WHITE.getValues());
+        button.getStyle().set("background", TeamValues.USER_BUTTON.getValues());
+        button.getStyle().set("font-size", TeamValues.PX_18.getValues());
+        button.getStyle().set("cursor", TeamValues.POINTER.getValues());
+    }
+
+    public void setDeleteBtn(Button button) {
+        button.setWidth(TeamValues.EM_14.getValues());
+        button.setHeight(TeamValues.EM_2.getValues());
+        button.getStyle().set("color", TeamValues.BLACK.getValues());
         button.getStyle().set("background", TeamValues.DARK_SALMON.getValues());
         button.getStyle().set("font-size", TeamValues.PX_18.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
