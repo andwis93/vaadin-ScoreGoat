@@ -28,7 +28,7 @@ public class ScoreGoatClient {
 
     private URI createUriForLogIn(UserDto userDto) {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
-                         "/login")
+                        "/login")
                 .queryParam("name", userDto.getName())
                 .queryParam("password", userDto.getPassword())
                 .build().encode().toUri();
@@ -76,8 +76,8 @@ public class ScoreGoatClient {
 
     public UserRespondDto changeAccountValues(AccountDto accountDto){
         try {
-        ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForAccountChange(),
-                HttpMethod.PUT, entityForAccountChange(accountDto), UserRespondDto.class);
+            ResponseEntity<UserRespondDto> response = restTemplate.exchange(createUriForAccountChange(),
+                    HttpMethod.PUT, entityForAccountChange(accountDto), UserRespondDto.class);
             return response.getBody();
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
@@ -93,7 +93,7 @@ public class ScoreGoatClient {
                 .build().encode().toUri();
     }
 
-        public List<Match> getMatchesByLeagueId(long userId, int leagueId){
+    public List<Match> getMatchesByLeagueId(long userId, int leagueId){
         try {
             Match[] boardsRespond = restTemplate.getForObject(createUriForMatches(userId, leagueId), Match[].class);
             return Optional.ofNullable(boardsRespond)
@@ -107,7 +107,7 @@ public class ScoreGoatClient {
 
     public NotificationRespond saveUserPredictions(PredictionDto predictionDto){
         try {
-          return restTemplate.postForObject(createUri() + "/prediction", predictionDto, NotificationRespond.class);
+            return restTemplate.postForObject(createUri() + "/prediction", predictionDto, NotificationRespond.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return new NotificationRespond(Messages.SAVE_PREDICTIONS_BAD.getMessage(),

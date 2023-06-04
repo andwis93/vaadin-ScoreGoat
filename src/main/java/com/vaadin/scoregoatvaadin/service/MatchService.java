@@ -40,7 +40,7 @@ public class MatchService {
         matches = provideMatches(userId, leagueId);
         mainView.getMatchList().setLeagueId(leagueId);
         for(Match match : matches) {
-            matchList.put(match.getId(),"");
+            matchList.put(match.getFixtureId(),"");
             vl.add(new MatchView(match, mainView));
         }
         team.setVerticalLayout(vl);
@@ -64,4 +64,10 @@ public class MatchService {
             notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
         }
     }
+
+//    private Map<Long,String> filterEmptyMatches(Map<Long, String> matchList) {
+//        Map<Long, String> filteredList = new HashMap<>();
+//        matchList.entrySet().stream().filter(match -> !match.getValue().isEmpty()).forEach(entry -> filteredList.put(entry.getKey(), entry.getValue()));
+//        return filteredList;
+//    }
 }
