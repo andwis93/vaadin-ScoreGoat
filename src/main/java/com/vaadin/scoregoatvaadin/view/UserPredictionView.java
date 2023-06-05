@@ -9,6 +9,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.function.SerializableBiConsumer;
+import com.vaadin.scoregoatvaadin.domain.Result;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.domain.UserPredictionDto;
 import com.vaadin.scoregoatvaadin.service.LeagueService;
@@ -82,17 +83,17 @@ public class UserPredictionView {
     private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionUpdateHomeTeam = (
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
-        int result = userPredictionsDto.getResult();
+        String result = userPredictionsDto.getResult();
         String theme;
         String style;
         String size;
-        if (result > 0) {
+        if (!result.equals(Result.UNSET.getResult())) {
             switch (result) {
-                case 1 -> {
-                    if (prediction.equals("home")) {
+                case ("home")-> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
                     } else {
-                        if (prediction.equals("away")) {
+                        if (prediction.equals(Result.AWAY.getResult())) {
                             theme = TeamValues.BLACK.getValues();
                         } else {
                             theme = TeamValues.RED_BAD_WARNING.getValues();
@@ -101,11 +102,11 @@ public class UserPredictionView {
                     style = TeamValues.BOLD.getValues();
                     size = TeamValues.PX_14.getValues();
                 }
-                case 2 -> {
-                    if (prediction.equals("home")) {
+                case "away" -> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.RED_BAD_WARNING.getValues();
                     } else {
-                        if (prediction.equals("away")) {
+                        if (prediction.equals(Result.AWAY.getResult())) {
                             theme = TeamValues.BLACK.getValues();
                         } else {
                             theme = TeamValues.RED_BAD_WARNING.getValues();
@@ -114,11 +115,11 @@ public class UserPredictionView {
                     style = TeamValues.NORMAL.getValues();
                     size = TeamValues.PX_12.getValues();
                 }
-                case 3 -> {
-                    if (prediction.equals("home")) {
+                case "draw" -> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.RED_BAD_WARNING.getValues();
                     } else {
-                        if (prediction.equals("away")) {
+                        if (prediction.equals(Result.AWAY.getResult())) {
                             theme = TeamValues.BLACK.getValues();
                         } else {
                             theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
@@ -167,17 +168,17 @@ public class UserPredictionView {
     private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionUpdateAwayTeam = (
             span, userPredictionsDto) -> {
         String prediction = userPredictionsDto.getPrediction();
-        int result = userPredictionsDto.getResult();
+        String result = userPredictionsDto.getResult();
         String theme;
         String style;
         String size;
-        if (result > 0) {
+        if (!result.equals(Result.UNSET.getResult())) {
             switch (result) {
-                case 2 -> {
-                    if (prediction.equals("home")) {
+                case "away" -> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.BLACK.getValues();
                     } else {
-                        if (prediction.equals("away")) {
+                        if (prediction.equals(Result.AWAY.getResult())) {
                             theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
                         } else {
                             theme = TeamValues.RED_BAD_WARNING.getValues();
@@ -186,8 +187,8 @@ public class UserPredictionView {
                     style = TeamValues.BOLD.getValues();
                     size = TeamValues.PX_14.getValues();
                 }
-                case 1 -> {
-                    if (prediction.equals("home")) {
+                case "home" -> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.BLACK.getValues();
                     } else {
                         theme = TeamValues.RED_BAD_WARNING.getValues();
@@ -195,11 +196,11 @@ public class UserPredictionView {
                     style = TeamValues.NORMAL.getValues();
                     size = TeamValues.PX_12.getValues();
                 }
-                case 3 -> {
-                    if (prediction.equals("home")) {
+                case "draw" -> {
+                    if (prediction.equals(Result.HOME.getResult())) {
                         theme = TeamValues.BLACK.getValues();
                     } else {
-                        if (prediction.equals("away")) {
+                        if (prediction.equals(Result.AWAY.getResult())) {
                             theme = TeamValues.RED_BAD_WARNING.getValues();
                         } else {
                             theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
