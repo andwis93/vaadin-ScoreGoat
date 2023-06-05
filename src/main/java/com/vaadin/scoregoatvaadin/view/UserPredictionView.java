@@ -87,69 +87,24 @@ public class UserPredictionView {
         String theme;
         String style;
         String size;
+
+        switch (prediction) {
+            case "home", "draw" -> {
+                theme = TeamValues.BLUE.getValues();
+            }
+            default -> {
+                theme = TeamValues.BLACK.getValues();
+            }
+        }
+        style = TeamValues.NORMAL.getValues();
+        size = TeamValues.PX_14.getValues();
+
         if (!result.equals(Result.UNSET.getResult())) {
             switch (result) {
-                case ("home")-> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
-                    } else {
-                        if (prediction.equals(Result.AWAY.getResult())) {
-                            theme = TeamValues.BLACK.getValues();
-                        } else {
-                            theme = TeamValues.RED_BAD_WARNING.getValues();
-                        }
-                    }
-                    style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
-                }
-                case "away" -> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.RED_BAD_WARNING.getValues();
-                    } else {
-                        if (prediction.equals(Result.AWAY.getResult())) {
-                            theme = TeamValues.BLACK.getValues();
-                        } else {
-                            theme = TeamValues.RED_BAD_WARNING.getValues();
-                        }
-                    }
-                    style = TeamValues.NORMAL.getValues();
-                    size = TeamValues.PX_12.getValues();
-                }
-                case "draw" -> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.RED_BAD_WARNING.getValues();
-                    } else {
-                        if (prediction.equals(Result.AWAY.getResult())) {
-                            theme = TeamValues.BLACK.getValues();
-                        } else {
-                            theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
-                        }
-                    }
-                    style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
-                }
-                default -> {
-                    theme = TeamValues.BLACK.getValues();
-                    style = TeamValues.NORMAL.getValues();
-                    size = TeamValues.PX_12.getValues();
-                }
-            }
-        } else {
-            switch (prediction) {
                 case "home", "draw" -> {
-                    theme = TeamValues.BLUE.getValues();
                     style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
-
-                }
-                case "away" -> {
-                    theme = TeamValues.BLACK.getValues();
-                    style = TeamValues.NORMAL.getValues();
-                    size = TeamValues.PX_12.getValues();
                 }
                 default -> {
-                    theme = TeamValues.BLACK.getValues();
-                    size = TeamValues.PX_12.getValues();
                     style = TeamValues.NORMAL.getValues();
                 }
             }
@@ -172,64 +127,25 @@ public class UserPredictionView {
         String theme;
         String style;
         String size;
+
+        switch (prediction) {
+            case "away", "draw" -> {
+                theme = TeamValues.BLUE.getValues();
+            }
+            default -> {
+                theme = TeamValues.BLACK.getValues();
+            }
+        }
+        style = TeamValues.NORMAL.getValues();
+        size = TeamValues.PX_14.getValues();
+
+
         if (!result.equals(Result.UNSET.getResult())) {
             switch (result) {
-                case "away" -> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.BLACK.getValues();
-                    } else {
-                        if (prediction.equals(Result.AWAY.getResult())) {
-                            theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
-                        } else {
-                            theme = TeamValues.RED_BAD_WARNING.getValues();
-                        }
-                    }
-                    style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
-                }
-                case "home" -> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.BLACK.getValues();
-                    } else {
-                        theme = TeamValues.RED_BAD_WARNING.getValues();
-                    }
-                    style = TeamValues.NORMAL.getValues();
-                    size = TeamValues.PX_12.getValues();
-                }
-                case "draw" -> {
-                    if (prediction.equals(Result.HOME.getResult())) {
-                        theme = TeamValues.BLACK.getValues();
-                    } else {
-                        if (prediction.equals(Result.AWAY.getResult())) {
-                            theme = TeamValues.RED_BAD_WARNING.getValues();
-                        } else {
-                            theme = TeamValues.GREEN_GOOD_ACCEPT.getValues();
-                        }
-                    }
-                    style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
-                }
-                default -> {
-                    theme = TeamValues.BLACK.getValues();
-                    size = TeamValues.PX_12.getValues();
-                    style = TeamValues.NORMAL.getValues();
-                }
-            }
-        } else {
-            switch (prediction) {
-                case "home" -> {
-                    theme = TeamValues.BLACK.getValues();
-                    style = TeamValues.NORMAL.getValues();
-                    size = TeamValues.PX_12.getValues();
-                }
                 case "away", "draw" -> {
-                    theme = TeamValues.BLUE.getValues();
                     style = TeamValues.BOLD.getValues();
-                    size = TeamValues.PX_14.getValues();
                 }
                 default -> {
-                    theme = TeamValues.BLACK.getValues();
-                    size = TeamValues.PX_12.getValues();
                     style = TeamValues.NORMAL.getValues();
                 }
             }
