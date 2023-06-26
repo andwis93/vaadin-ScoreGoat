@@ -55,6 +55,7 @@ public class DeleteView extends VerticalLayout {
             if (respond.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
                 deleteUserExecution();
                 notification.good(respond.getRespond());
+                mainView.getLeftBar().getUserView().logOutExecute();
             } else {
                 if (respond.getNotificationType().equals(NotificationTypes.ERROR.getType())) {
                     notification.bad(respond.getRespond());

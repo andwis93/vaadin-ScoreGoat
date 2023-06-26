@@ -46,4 +46,8 @@ public class ScoreGoatFacade {
     public UserRespondDto deleteUser(UserDto userDto) {
         return scoreGoatClient.deleteUser(userDto);
     }
+
+    public List<RankingDto> getRankingList(int leagueId) {
+        return scoreGoatClient.getRankingList(leagueId);
+    }
 }

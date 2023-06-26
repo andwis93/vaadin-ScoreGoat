@@ -64,10 +64,4 @@ public class MatchService {
             notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
         }
     }
-
-//    private Map<Long,String> filterEmptyMatches(Map<Long, String> matchList) {
-//        Map<Long, String> filteredList = new HashMap<>();
-//        matchList.entrySet().stream().filter(match -> !match.getValue().isEmpty()).forEach(entry -> filteredList.put(entry.getKey(), entry.getValue()));
-//        return filteredList;
-//    }
 }

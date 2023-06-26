@@ -31,6 +31,7 @@ public class MainView extends HorizontalLayout {
     private DeleteView deleteView = new DeleteView(this);
     private final MatchList matchList = new MatchList();
     private User user;
+    private int leagueId;
 
     public MainView(ScoreGoatFacade facade) {
         setSizeFull();
@@ -71,5 +72,8 @@ public class MainView extends HorizontalLayout {
     }
     public DeleteView setDeleteView(){
         return this.deleteView = new DeleteView(this);
+    }
+    public void setLeagueId(int leagueId) {
+        this.leagueId = leagueId;
     }
 }

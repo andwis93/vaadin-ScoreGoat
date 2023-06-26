@@ -1,5 +1,6 @@
 package com.vaadin.scoregoatvaadin.view;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -14,6 +15,8 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.domain.UserPredictionDto;
 import com.vaadin.scoregoatvaadin.service.LeagueService;
 import com.vaadin.scoregoatvaadin.service.PredictionService;
+import com.vaadin.scoregoatvaadin.service.RankingService;
+import com.vaadin.scoregoatvaadin.view.manager.elements.TeamUserPredictionView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,10 +25,19 @@ import lombok.Setter;
 public class UserPredictionView {
     private PredictionService predictionService;
     private LeagueService leagueService = new LeagueService();
+    private RankingService rankingService;
     private MainView mainView;
+    private TeamUserPredictionView team = new TeamUserPredictionView();
+
+    private Button ranking = new Button("Ranking");
 
     public UserPredictionView(MainView mainView) {
         this.mainView = mainView;
+        this.rankingService = new RankingService(mainView);
+        team.setRankingButton(ranking);
+        ranking.addClickListener(event ->{
+            rankingService.ratingButtonClick(mainView.getLeagueId(), mainView.getDoubleLayout());
+        });
     }
 
     public VerticalLayout predictionExecution(int leagueId) {
@@ -50,7 +62,7 @@ public class UserPredictionView {
         grid.addColumn(createResultRenderer()).setWidth(TeamValues.EM_6.getValues()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
                 setSortable(true).setComparator(UserPredictionDto::getPoints);
         grid.setSizeFull();
-        vl.add(grid);
+        vl.add(grid, ranking);
         return vl;
     }
 

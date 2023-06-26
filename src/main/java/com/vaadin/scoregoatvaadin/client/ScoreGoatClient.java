@@ -156,4 +156,23 @@ public class ScoreGoatClient {
             return new UserRespondDto(Messages.ACCOUNT_UPDATED_BAD.getMessage(), NotificationTypes.ERROR.getType());
         }
     }
+
+    private URI createUriForRanking(int leagueId) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/ranking")
+                .queryParam("leagueId", leagueId)
+                .build().encode().toUri();
+    }
+    public List<RankingDto> getRankingList(int leagueId) {
+        try {
+            RankingDto[] boardsRespond = restTemplate.getForObject(
+                    createUriForRanking(leagueId), RankingDto[].class);
+            return Optional.ofNullable(boardsRespond)
+                    .map(Arrays::asList)
+                    .orElse(Collections.emptyList());
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
 }

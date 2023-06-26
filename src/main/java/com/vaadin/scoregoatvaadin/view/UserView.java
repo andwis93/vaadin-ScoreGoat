@@ -70,5 +70,6 @@ public class UserView extends VerticalLayout {
         mainView.getAccountLayout().remove(mainView.getSignUpView());
         mainView.getAccountLayout().remove(mainView.getAccountView());
         mainView.getAccountLayout().remove(mainView.getChangePasswordView());
+        mainView.getAccountLayout().remove(mainView.getDeleteView());
     }
 }

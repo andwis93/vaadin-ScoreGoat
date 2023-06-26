@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Messages;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.service.elements.TeamDoubleLayoutService;
+import com.vaadin.scoregoatvaadin.view.RankingView;
 import com.vaadin.scoregoatvaadin.view.MainView;
 import com.vaadin.scoregoatvaadin.view.UserPredictionView;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Setter
 public class DoubleLayoutService {
     private UserPredictionView userPredictionView;
+    private RankingView rankingView;
     private MatchService matchService;
     private TeamDoubleLayoutService team = new TeamDoubleLayoutService();
     private Button save = new Button("SAVE");
@@ -24,6 +26,7 @@ public class DoubleLayoutService {
     public DoubleLayoutService(MainView mainView) {
         this.matchService = new MatchService(mainView);
         this.userPredictionView = new UserPredictionView(mainView);
+        this.rankingView = new RankingView(mainView);
         team.setSaveButton(save);
         save.addClickListener(event -> matchService.saveExecution());
     }
@@ -40,8 +43,8 @@ public class DoubleLayoutService {
     }
 
     public VerticalLayout setLeftLayout(int leagueId){
-        VerticalLayout centerLayout = new VerticalLayout();
-        team.setLeftLayout(centerLayout);
+        VerticalLayout fixturesLayout = new VerticalLayout();
+        team.setLeftLayout(fixturesLayout);
         VerticalLayout matchLayout;
         Section section;
         try {
@@ -57,7 +60,7 @@ public class DoubleLayoutService {
                 .set("border-bottom", "1px solid var(--lumo-contrast-20pct)")
                 .set("padding", "var(--lumo-space-m)");
         scroller.setHeight(TeamValues.EM_55.getValues());
-        centerLayout.add(scroller, save);
-        return centerLayout;
+        fixturesLayout.add(scroller, save);
+        return fixturesLayout;
     }
 }
