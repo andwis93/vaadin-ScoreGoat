@@ -2,7 +2,7 @@ package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.scoregoatvaadin.domain.*;
@@ -12,7 +12,7 @@ import com.vaadin.scoregoatvaadin.view.manager.elements.TeamDeleteView;
 import java.util.Objects;
 
 public class DeleteView extends VerticalLayout {
-    private final Label head = new Label("Delete User?");
+    private final NativeLabel head = new NativeLabel("Delete User?");
     private final PasswordField password = new PasswordField(Names.PASSWORD.getValue());
     private final Button accept = new Button(Names.ACCEPT.getValue());
     private final Button cancel = new Button(Names.CANCEL.getValue());
@@ -27,7 +27,7 @@ public class DeleteView extends VerticalLayout {
                 setElements()
         );
         accept.addClickListener(event -> deleteUser());
-        cancel.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        cancel.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
@@ -71,6 +71,6 @@ public class DeleteView extends VerticalLayout {
     private void deleteUserExecution() {
         NotificationService notification = new NotificationService();
         notification.good(Messages.USER_DELETED_OK.getMessage());
-        mainView.getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().remove(this);
     }
 }

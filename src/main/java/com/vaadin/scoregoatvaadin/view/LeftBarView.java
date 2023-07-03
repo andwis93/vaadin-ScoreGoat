@@ -18,6 +18,7 @@ import lombok.Setter;
 public class LeftBarView extends HorizontalLayout{
     private final MainView mainView;
     private final UserView userView;
+    private final HorizontalLayout accountLayout = new HorizontalLayout();
     private ImageManager image = new ImageManager();
     private DoubleLayoutService doubleLayoutService;
     private TeamLeftBarView team = new TeamLeftBarView();
@@ -27,6 +28,7 @@ public class LeftBarView extends HorizontalLayout{
         this.mainView = mainView;
         this.userView = new UserView(mainView);
         this.doubleLayoutService = new DoubleLayoutService(mainView);
+        this.setSpacing(false);
         add(
                 setLeaguesElements()
         );

@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
@@ -39,7 +39,7 @@ public class TeamDeleteView {
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 
-    public void setHeader(Label label) {
+    public void setHeader(NativeLabel label) {
         label.getStyle().set("color", TeamValues.RED_BAD_WARNING.getValues());
         label.getStyle().set("font-size", TeamValues.PX_20.getValues());
         label.getStyle().set("font-weight" ,TeamValues.BOLD.getValues());

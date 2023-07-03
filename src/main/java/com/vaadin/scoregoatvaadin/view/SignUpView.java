@@ -31,7 +31,7 @@ public class SignUpView extends VerticalLayout {
         team.setMineLayout(this);
 
         create.addClickListener(event -> signIn());
-        close.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        close.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
 
         add(
                 setElements()
@@ -79,6 +79,6 @@ public class SignUpView extends VerticalLayout {
     private void signInExecute(UserRespondDto respond){
         NotificationService notification = new NotificationService();
         notification.good(respond.getRespond());
-        mainView.getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().remove(this);
     }
 }

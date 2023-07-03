@@ -20,7 +20,6 @@ public class MainView extends HorizontalLayout {
     private final ScoreGoatFacade facade;
     private final TeamMainView team = new TeamMainView();
     private final LeftBarView leftBar = new LeftBarView(this);
-    private final HorizontalLayout accountLayout = new HorizontalLayout();
     private final HorizontalLayout toolbar = new HorizontalLayout();
     private final DoubleLayout doubleLayout = new DoubleLayout(this);
     private final VerticalLayout mainContent = new VerticalLayout();
@@ -38,18 +37,16 @@ public class MainView extends HorizontalLayout {
         setSpacing(false);
         add(
                 leftBar,
-                accountLayout,
                 setMainContent()
         );
         this.facade = facade;
     }
 
     private VerticalLayout setMainContent() {
-        doubleLayout.setMaxHeight(TeamValues.EM_48.getValues());
-        mainContent.add(toolbar, doubleLayout);
-        mainContent.setAlignItems(Alignment.CENTER);
-        mainContent.setMargin(false);
-        mainContent.setPadding(false);
+        doubleLayout.setWidth("100%");
+        doubleLayout.setHeight("100%");
+        doubleLayout.setSizeFull();
+        mainContent.add(doubleLayout);
         mainContent.setSizeFull();
         team.setMainLayout(mainContent);
         return mainContent;
@@ -62,13 +59,13 @@ public class MainView extends HorizontalLayout {
         this.loginView = new LogInView(this);
     }
     public SignUpView setSignUpView(){
-       return this.signUpView = new SignUpView(this);
+        return this.signUpView = new SignUpView(this);
     }
     public AccountView setAccountView(){
-      return this.accountView = new AccountView(this);
+        return this.accountView = new AccountView(this);
     }
     public PasswordView setChangePasswordView(){
-       return this.changePasswordView = new PasswordView(this);
+        return this.changePasswordView = new PasswordView(this);
     }
     public DeleteView setDeleteView(){
         return this.deleteView = new DeleteView(this);

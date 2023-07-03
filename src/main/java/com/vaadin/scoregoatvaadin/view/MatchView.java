@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.view;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Match;
@@ -17,8 +17,8 @@ import java.util.Map;
 public class MatchView extends VerticalLayout {
     private TeamMatchView team = new TeamMatchView();
     private Long fixtureId;
-    private Label date = new Label();
-    private Label time = new Label();
+    private NativeLabel date = new NativeLabel();
+    private NativeLabel time = new NativeLabel();
     private Button home = new Button();
     private Button away = new Button();
     private ImageManager imgMng = new ImageManager();

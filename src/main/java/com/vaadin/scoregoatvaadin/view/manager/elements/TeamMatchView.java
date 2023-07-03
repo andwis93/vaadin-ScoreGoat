@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -47,12 +47,12 @@ public class TeamMatchView {
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 
-    public void setData(Label label) {
+    public void setData(NativeLabel label) {
         label.getElement().getStyle().set("color", TeamValues.ORANGE.getValues());
         label.getElement().getStyle().set("font-size", TeamValues.PX_12.getValues());
     }
 
-    public void setTime(Label label) {
+    public void setTime(NativeLabel label) {
         label.getElement().getStyle().set("color", TeamValues.WHITE.getValues());
         label.getElement().getStyle().set("font-size", TeamValues.PX_12.getValues());
         label.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());

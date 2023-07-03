@@ -1,6 +1,5 @@
 package com.vaadin.scoregoatvaadin.view;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -15,8 +14,6 @@ import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.domain.UserPredictionDto;
 import com.vaadin.scoregoatvaadin.service.LeagueService;
 import com.vaadin.scoregoatvaadin.service.PredictionService;
-import com.vaadin.scoregoatvaadin.service.RankingService;
-import com.vaadin.scoregoatvaadin.view.manager.elements.TeamUserPredictionView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,19 +22,13 @@ import lombok.Setter;
 public class UserPredictionView {
     private PredictionService predictionService;
     private LeagueService leagueService = new LeagueService();
-    private RankingService rankingService;
+    private UserRankView userRankView;
     private MainView mainView;
-    private TeamUserPredictionView team = new TeamUserPredictionView();
 
-    private Button ranking = new Button("Ranking");
 
     public UserPredictionView(MainView mainView) {
         this.mainView = mainView;
-        this.rankingService = new RankingService(mainView);
-        team.setRankingButton(ranking);
-        ranking.addClickListener(event ->{
-            rankingService.ratingButtonClick(mainView.getLeagueId(), mainView.getDoubleLayout());
-        });
+        this.userRankView = new UserRankView(mainView);
     }
 
     public VerticalLayout predictionExecution(int leagueId) {
@@ -47,22 +38,21 @@ public class UserPredictionView {
         Grid<UserPredictionDto> grid = new Grid<>(UserPredictionDto.class, false);
         grid.setItems(predictionService.getPredictions());
         grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
-        grid.getStyle().set("font-size", TeamValues.PX_10.getValues());
+        grid.getStyle().set("font-size", TeamValues.PX_12.getValues());
 
-        grid.addColumn(createHomeLogo()).setWidth(TeamValues.EM_6.getValues()).setFlexGrow(0);
-        grid.addColumn(createHomeTeamRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" HOME").setFlexGrow(0)
+        grid.addColumn(createHomeLogo()).setWidth(TeamValues.EM_4.getValues()).setFlexGrow(0);
+        grid.addColumn(createHomeTeamRenderer()).setWidth(TeamValues.EM_10.getValues()).setHeader(" HOME").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getHomeTeam);
-        grid.addColumn(UserPredictionDto::getHomeGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(createDateTime()).setAutoWidth(true).setHeader("DATE").setFlexGrow(0)
+        grid.addColumn(UserPredictionDto::getHomeGoal).setWidth(TeamValues.EM_3.getValues()).setTextAlign(ColumnTextAlign.CENTER);
+        grid.addColumn(createDateTime()).setWidth(TeamValues.EM_8.getValues()).setHeader("DATE").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getDate);
-        grid.addColumn(UserPredictionDto::getAwayGoal).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(createAwayTeamRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" AWAY").setFlexGrow(0)
+        grid.addColumn(UserPredictionDto::getAwayGoal).setWidth(TeamValues.EM_3.getValues()).setTextAlign(ColumnTextAlign.CENTER);
+        grid.addColumn(createAwayTeamRenderer()).setWidth(TeamValues.EM_10.getValues()).setHeader(" AWAY").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(UserPredictionDto::getAwayTeam);
-        grid.addColumn(createAwayLogo()).setWidth(TeamValues.EM_5.getValues()).setFlexGrow(0);
-        grid.addColumn(createResultRenderer()).setWidth(TeamValues.EM_6.getValues()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
+        grid.addColumn(createAwayLogo()).setWidth(TeamValues.EM_4.getValues()).setFlexGrow(0);
+        grid.addColumn(createResultRenderer()).setWidth(TeamValues.EM_5.getValues()).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER).
                 setSortable(true).setComparator(UserPredictionDto::getPoints);
-        grid.setSizeFull();
-        vl.add(grid, ranking);
+        vl.add(grid,userRankView);
         return vl;
     }
 
@@ -188,8 +178,8 @@ public class UserPredictionView {
             sign = "";
         }
         span.getElement().getStyle().set("color", theme);
-        span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
-        span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        span.getElement().getStyle().set("font-size", TeamValues.PX_14.getValues());
+        span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
         span.setText(sign + userPredictionsDto.getPoints());
     };
 

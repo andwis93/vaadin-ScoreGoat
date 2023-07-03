@@ -13,4 +13,5 @@ public class RankingDto {
     int rank;
     String userName;
     int points;
+    int status;
 }

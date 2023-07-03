@@ -36,10 +36,10 @@ public class LogInView extends VerticalLayout {
         logIn.addClickListener(event -> {
             logIn();
         });
-        cancel.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        cancel.addClickListener(event -> mainView.getLeftBar().remove(mainView.getLeftBar().getAccountLayout()));
         signUp.addClickListener(event -> {
-            mainView.getAccountLayout().remove(this);
-            mainView.getAccountLayout().add(mainView.setSignUpView());
+            mainView.getLeftBar().getAccountLayout().remove(this);
+            mainView.getLeftBar().getAccountLayout().add(mainView.setSignUpView());
         });
     }
 
@@ -84,7 +84,7 @@ public class LogInView extends VerticalLayout {
     private void logInExecution(UserRespondDto respond) {
         NotificationService notification = new NotificationService();
         mainView.setUser(userManager.setUser(respond));
-        mainView.getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().remove(this);
         mainView.getDoubleLayout().removeAll();
         leftBarView.getUserView().getUserLabel().setText(respond.getUserName());
         leftBarView.getUserView().getLogButton().setText(Names.LOG_OUT.getValue());
@@ -95,7 +95,7 @@ public class LogInView extends VerticalLayout {
     }
 
     public void logInExecute() {
-        mainView.getAccountLayout().add(setLogInView());
+        mainView.getLeftBar().getAccountLayout().add(setLogInView());
     }
 
     public LogInView setLogInView() {

@@ -28,6 +28,9 @@ public class AccountView extends VerticalLayout {
     public AccountView(MainView mainView) {
         this.mainView = mainView;
         this.changePasswordView = mainView.getChangePasswordView();
+        this.setSpacing(false);
+        this.setPadding(false);
+        this.setMargin(false);
         team.setMineLayout(this);
 
         add(
@@ -37,18 +40,18 @@ public class AccountView extends VerticalLayout {
         update.addClickListener(event -> updateExecute());
         accept.addClickListener(event -> acceptExecution());
         changePassword.addClickListener(event -> changePasswordExecute());
-        close.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        close.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
         delete.addClickListener(event -> deleteExecution());
     }
 
     private void changePasswordExecute() {
-        mainView.getAccountLayout().remove(this);
-        mainView.getAccountLayout().add(mainView.setChangePasswordView());
+        mainView.getLeftBar().getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().add(mainView.setChangePasswordView());
     }
 
     private void deleteExecution() {
-        mainView.getAccountLayout().remove(this);
-        mainView.getAccountLayout().add(mainView.setDeleteView());
+        mainView.getLeftBar().getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().add(mainView.setDeleteView());
     }
 
     private VerticalLayout setElements() {
@@ -131,7 +134,7 @@ public class AccountView extends VerticalLayout {
 
     public void acceptExecution(){
         NotificationService notification = new NotificationService();
-        mainView.getAccountLayout().add(setAccountView());
+        mainView.getLeftBar().getAccountLayout().add(setAccountView());
         if (mainView.getUser().getId() != null) {
             if (!name.getValue().equals("") && !email.getValue().equals("") && !password.getValue().equals("")) {
                 changeExecution();

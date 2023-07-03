@@ -17,7 +17,7 @@ public class DoubleLayout extends HorizontalLayout {
         this.mainView = mainView;
         this.left = new VerticalLayout();
         this.right = new VerticalLayout();
-        this.left.setSizeUndefined();
-        this.right.setSizeUndefined();
+        this.left.setSizeFull();
+        this.right.setSizeFull();
     }
 }

@@ -26,7 +26,7 @@ public class PasswordView extends VerticalLayout {
                 setElements()
         );
         accept.addClickListener(event -> changePassword());
-        cancel.addClickListener(event -> mainView.getAccountLayout().remove(this));
+        cancel.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
@@ -46,7 +46,6 @@ public class PasswordView extends VerticalLayout {
                 accept,
                 cancel
         );
-
         return vl;
     }
 
@@ -70,6 +69,6 @@ public class PasswordView extends VerticalLayout {
     private void changePasswordExecution() {
         NotificationService notification = new NotificationService();
         notification.good(Messages.PASSWORD_CHANGE_OK.getMessage());
-        mainView.getAccountLayout().remove(this);
+        mainView.getLeftBar().getAccountLayout().remove(this);
     }
 }

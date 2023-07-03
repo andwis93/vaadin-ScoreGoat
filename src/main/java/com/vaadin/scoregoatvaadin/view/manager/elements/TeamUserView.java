@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.view.manager.elements;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 
@@ -19,7 +19,7 @@ public class TeamUserView {
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
 
-    public void setUserLabel(Label label) {
+    public void setUserLabel(NativeLabel label) {
         label.getStyle().set("color",TeamValues.USER_NAME.getValues());
         label.getStyle().set("font-size",TeamValues.PX_14.getValues());
     }

@@ -1,7 +1,7 @@
 package com.vaadin.scoregoatvaadin.service;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.html.Section;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -51,7 +51,7 @@ public class DoubleLayoutService {
             matchLayout = matchService.createLayout(leagueId);
         } catch (Exception ex) {
             matchLayout = new VerticalLayout(
-                    new Label(Messages.LEFT_BAR_VIEW_LEAGUE_BTN.getMessage()));
+                    new NativeLabel(Messages.LEFT_BAR_VIEW_LEAGUE_BTN.getMessage()));
         }
         section = new Section(matchLayout);
         Scroller scroller = new Scroller(section);

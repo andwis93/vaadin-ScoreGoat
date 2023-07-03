@@ -157,7 +157,7 @@ public class ScoreGoatClient {
         }
     }
 
-    private URI createUriForRanking(int leagueId) {
+    private URI createUriForRankingList(int leagueId) {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
                         "/ranking")
                 .queryParam("leagueId", leagueId)
@@ -166,13 +166,30 @@ public class ScoreGoatClient {
     public List<RankingDto> getRankingList(int leagueId) {
         try {
             RankingDto[] boardsRespond = restTemplate.getForObject(
-                    createUriForRanking(leagueId), RankingDto[].class);
+                    createUriForRankingList(leagueId), RankingDto[].class);
             return Optional.ofNullable(boardsRespond)
                     .map(Arrays::asList)
                     .orElse(Collections.emptyList());
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();
+        }
+    }
+
+    private URI createUriForRanking(Long userId, int leagueId) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/ranking/single")
+                .queryParam("userId", userId)
+                .queryParam("leagueId", leagueId)
+                .build().encode().toUri();
+    }
+    public RankingDto getRanking(Long userId, int leagueId) {
+        try {
+            return restTemplate.getForObject(
+                    createUriForRanking(userId, leagueId), RankingDto.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new RankingDto(0, "", 0,0);
         }
     }
 }

@@ -18,14 +18,13 @@ public class TeamDoubleLayoutService {
     public void setRightLayout(VerticalLayout layout){
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.getStyle().set("background", TeamValues.DOUBLE_LAYOUT.getValues());
-        layout.setWidth(TeamValues.EM_40.getValues());
-        layout.setHeight(TeamValues.EM_40.getValues());
+        layout.setSizeFull();
     }
 
     public void setLeftLayout(VerticalLayout layout){
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.getStyle().set("background", TeamValues.DOUBLE_LAYOUT.getValues());
-        layout.setWidth(TeamValues.EM_42.getValues());
-        layout.setHeight(TeamValues.EM_40.getValues());
+        layout.setHeight("100%");
+        layout.setWidth("60%");
     }
 }
