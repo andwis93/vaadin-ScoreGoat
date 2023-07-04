@@ -183,13 +183,13 @@ public class ScoreGoatClient {
                 .queryParam("leagueId", leagueId)
                 .build().encode().toUri();
     }
-    public RankingDto getRanking(Long userId, int leagueId) {
+    public UserRankDto getRanking(Long userId, int leagueId) {
         try {
             return restTemplate.getForObject(
-                    createUriForRanking(userId, leagueId), RankingDto.class);
+                    createUriForRanking(userId, leagueId), UserRankDto.class);
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return new RankingDto(0, "", 0,0);
+            return new UserRankDto(new RankingDto("", "", "",0),0);
         }
     }
 }

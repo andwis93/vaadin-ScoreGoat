@@ -11,8 +11,7 @@ public enum Icon {
     CARTMAN("https://img.icons8.com/fluency/48/eric-cartman.png"),
     CRYBABY("https://img.icons8.com/officel/40/crying-baby.png"),
     HOMER("https://img.icons8.com/doodle/48/homer-simpson.png"),
-    ERROR("https://img.icons8.com/dotty/80/jake.png");
-
+    ERROR("https://img.icons8.com/officel/40/jake.png");
 
     private final String icon;
 }

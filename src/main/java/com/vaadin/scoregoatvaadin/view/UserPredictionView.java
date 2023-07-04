@@ -28,12 +28,12 @@ public class UserPredictionView {
 
     public UserPredictionView(MainView mainView) {
         this.mainView = mainView;
-        this.userRankView = new UserRankView(mainView);
     }
 
-    public VerticalLayout predictionExecution(int leagueId) {
+    public VerticalLayout predictionExecution(MainView mainView) {
         VerticalLayout vl = new VerticalLayout();
-        setPredictionService(leagueId);
+        setPredictionService(mainView);
+        setUserRankingView(mainView);
 
         Grid<UserPredictionDto> grid = new Grid<>(UserPredictionDto.class, false);
         grid.setItems(predictionService.getPredictions());
@@ -78,8 +78,12 @@ public class UserPredictionView {
                                 + "<vaadin-avatar img=\"${item.awayLogo}\" alt=\"User avatar\"></vaadin-avatar>")
                 .withProperty("awayLogo", UserPredictionDto::getAwayLogo);
     }
-    private void setPredictionService(int leagueId) {
-        this.predictionService = new PredictionService(mainView, leagueId);
+    private void setPredictionService(MainView mainView) {
+        this.predictionService = new PredictionService(mainView);
+    }
+
+    private void setUserRankingView(MainView mainView) {
+        this.userRankView = new UserRankView(mainView);
     }
 
     private static final SerializableBiConsumer<Span, UserPredictionDto> userPredictionUpdateHomeTeam = (

@@ -5,63 +5,83 @@ import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.scoregoatvaadin.domain.Icon;
 import com.vaadin.scoregoatvaadin.service.RankingService;
+import com.vaadin.scoregoatvaadin.service.UserRankingService;
+import com.vaadin.scoregoatvaadin.view.manager.EmojiManager;
 import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamUserRankView;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class UserRankView extends HorizontalLayout {
     private RankingService rankingService;
+    private UserRankingService userRankingService;
+    private MainView mainView;
     private Image img;
-    private NativeLabel place = new NativeLabel("187687767");
-    private NativeLabel points = new NativeLabel("234537834569");
-    private NativeLabel placeTitle = new NativeLabel("Place");
-    private NativeLabel pointsTitle = new NativeLabel("Points");
+    private NativeLabel place = new NativeLabel();
+    private NativeLabel points = new NativeLabel();
+    private NativeLabel placeTitle = new NativeLabel("Position  :");
+    private NativeLabel pointsTitle = new NativeLabel("Points : ");
     private Button ranking = new Button("Ranking");
     private TeamUserRankView team = new TeamUserRankView();
     private ImageManager imageManager = new ImageManager();
+    private EmojiManager emojiManager = new EmojiManager();
 
     public UserRankView(MainView mainView) {
-        img = imageManager.setIcon(Icon.CARTMAN.getIcon());
+        this.mainView = mainView;
+        this.rankingService = new RankingService(mainView);
         setLabels();
         add(
                 setUserRankLayout()
         );
-        this.rankingService = new RankingService(mainView);
         team.setRankingButton(ranking);
         ranking.addClickListener(event -> {
             rankingService.ratingButtonClick(mainView.getLeagueId(), mainView.getDoubleLayout());
         });
     }
 
-    public VerticalLayout setUserRankLayout() {
-        VerticalLayout vl = new VerticalLayout();
+    public HorizontalLayout setUserRankLayout() {
+        setUserRankingService();
+        setRank(userRankingService);
         HorizontalLayout hl = new HorizontalLayout();
 
         HorizontalLayout hlImg = new HorizontalLayout(img);
         team.setImgLayout(hlImg);
 
-        VerticalLayout vlPlace = new VerticalLayout(placeTitle, place, pointsTitle, points);
+        HorizontalLayout hlPlace = new HorizontalLayout(placeTitle, place);
+        HorizontalLayout hlPoints = new HorizontalLayout(pointsTitle, points);
+
+        hlPlace.setAlignItems(Alignment.CENTER);
+        hlPoints.setAlignItems(Alignment.CENTER);
+
+        VerticalLayout vlPlace = new VerticalLayout(hlPlace, hlPoints);
         team.setPlaceLayout(vlPlace);
 
-        HorizontalLayout hlRanking = new HorizontalLayout(ranking);
-        team.setRankingLayout(hlRanking);
+        VerticalLayout vlRanking = new VerticalLayout(ranking);
+        team.setRankingLayout(vlRanking);
 
-        hl.add(hlImg, vlPlace, hlRanking);
-        vl.add(hl);
-        team.setMainLayout(vl);
-        return vl;
+        hl.add(hlImg, vlPlace, vlRanking);
+        hl.setAlignItems(Alignment.CENTER);
+        hl.setVerticalComponentAlignment(Alignment.CENTER);
+        return hl;
     }
-    public void setLabels() {
+
+    private void setUserRankingService() {
+        this.userRankingService = new UserRankingService(mainView);
+    }
+
+    private void setRank(UserRankingService service) {
+        img = imageManager.setIcon(emojiManager.getEmojiList().get(service.getUserRankDto().getRankingDto().getStatus()));
+        place.add(service.getUserRankDto().getRankingDto().getRank() + " / " + service.getUserRankDto().getRankingSize());
+        points.add(service.getUserRankDto().getRankingDto().getPoints());
+    }
+
+    private void setLabels() {
         team.setUserRankLabel(place);
         team.setUserRankLabel(points);
         team.setTitleRankLabel(placeTitle);
         team.setTitleRankLabel(pointsTitle);
-
     }
 }

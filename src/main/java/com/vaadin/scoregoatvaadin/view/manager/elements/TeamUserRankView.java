@@ -23,30 +23,39 @@ public class TeamUserRankView {
     }
 
     public void setTitleRankLabel(NativeLabel label) {
-        label.getStyle().set("font-size", TeamValues.PX_10.getValues());
-        label.getStyle().set("color", TeamValues.USER_BUTTON.getValues());
+        label.getStyle().set("font-size", TeamValues.PX_12.getValues());
+        label.getStyle().set("color", TeamValues.ORANGE.getValues());
     }
 
-    public void setMainLayout(VerticalLayout vl) {
-        vl.setHorizontalComponentAlignment(FlexComponent.Alignment.BASELINE);
+    public void setMainLayout(HorizontalLayout hl) {
+        hl.setAlignItems(FlexComponent.Alignment.CENTER);
+        hl.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        hl.setSpacing(false);
+        hl.setMargin(false);
+        hl.setPadding(false);
+        hl.setWidth(TeamValues.EM_39.getValues());
     }
 
     public void setImgLayout(HorizontalLayout hl) {
-        hl.setWidth(TeamValues.EM_16.getValues());
-        hl.setVerticalComponentAlignment(FlexComponent.Alignment.START);
+        hl.setWidth(TeamValues.EM_8.getValues());
+        hl.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         hl.setAlignItems(FlexComponent.Alignment.CENTER);
     }
 
     public void setPlaceLayout(VerticalLayout vl) {
         vl.setPadding(false);
         vl.setSpacing(false);
+        vl.setWidth(TeamValues.EM_12.getValues());
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
-        vl.setSizeUndefined();
+        vl.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+      //  vl.getStyle().set("background", TeamValues.SILVER.getValues());
     }
 
-    public void setRankingLayout(HorizontalLayout hl) {
-        hl.setSizeUndefined();
-        hl.setVerticalComponentAlignment(FlexComponent.Alignment.START);
-        hl.setAlignItems(FlexComponent.Alignment.CENTER);
+    public void setRankingLayout(VerticalLayout vl) {
+        vl.setWidth(TeamValues.EM_12.getValues());
+        vl.setSpacing(false);
+        vl.setMargin(false);
+        vl.setPadding(false);
+        vl.setAlignItems(FlexComponent.Alignment.END);
     }
 }

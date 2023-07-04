@@ -9,7 +9,6 @@
   "devBundleOutput": "C:/Users/andwi/JAVA/Projects/Score-Goat-Vaadin/vaadin-ScoreGoat/src/main/dev-bundle/webapp",
   "devBundleStatsOutput": "C:/Users/andwi/JAVA/Projects/Score-Goat-Vaadin/vaadin-ScoreGoat/src/main/dev-bundle/config",
   "jarResourcesFolder": "C:/Users/andwi/JAVA/Projects/Score-Goat-Vaadin/vaadin-ScoreGoat/./frontend/generated/jar-resources",
-  "generatedFlowImportsFolder": "target/frontend",
   "themeName": "",
   "clientServiceWorkerSource": "C:\\Users\\andwi\\JAVA\\Projects\\Score-Goat-Vaadin\\vaadin-ScoreGoat\\target\\sw.ts",
   "pwaEnabled": false,

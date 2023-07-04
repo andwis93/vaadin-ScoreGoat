@@ -10,10 +10,10 @@ public class PredictionService {
     private final List<UserPredictionDto> predictions;
     private final MainView mainView;
 
-    public PredictionService(MainView mainView, int leagueId) {
+    public PredictionService(MainView mainView) {
         this.mainView = mainView;
         if (mainView.getUser() != null && mainView.getUser().getId() != null) {
-            this.predictions = mainView.getFacade().fetchUserPredictions(mainView.getUser().getId(), leagueId);
+            this.predictions = mainView.getFacade().fetchUserPredictions(mainView.getUser().getId(), mainView.getLeagueId());
         } else {
             this.predictions = new ArrayList<>();
         }

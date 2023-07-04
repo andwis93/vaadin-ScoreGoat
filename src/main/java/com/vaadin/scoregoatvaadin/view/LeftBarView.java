@@ -54,10 +54,10 @@ public class LeftBarView extends HorizontalLayout{
     }
 
     public void leagueButtonClick(int leagueId, DoubleLayout doubleLayout) {
+        mainView.setLeagueId(leagueId);
         doubleLayout.removeAll();
         doubleLayout.setSpacing(false);
-        doubleLayout.add(doubleLayoutService.setLeftLayout(leagueId), doubleLayoutService.setRightLayout(leagueId));
-        mainView.setLeagueId(leagueId);
+        doubleLayout.add(doubleLayoutService.setLeftLayout(leagueId), doubleLayoutService.setRightLayout(mainView));
     }
 
     private VerticalLayout setButton(Button button, String leagueLogo) {

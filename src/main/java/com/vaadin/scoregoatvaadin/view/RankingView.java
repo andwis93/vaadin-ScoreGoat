@@ -63,7 +63,7 @@ public class RankingView {
         span.getElement().getStyle().set("color", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
         span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
-        span.setText(Integer.toString(graduationDto.getRank()));
+        span.setText(graduationDto.getRank());
     };
 
     private static ComponentRenderer<Span, RankingDto> createRankRenderer() {
@@ -98,7 +98,7 @@ public class RankingView {
         span.getElement().getStyle().set("color", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
         span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
-        span.setText(Integer.toString(graduationDto.getPoints()));
+        span.setText(graduationDto.getPoints());
     };
 
     private static ComponentRenderer<Span, RankingDto> createPointsRenderer() {

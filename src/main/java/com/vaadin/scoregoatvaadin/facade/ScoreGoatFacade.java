@@ -50,4 +50,8 @@ public class ScoreGoatFacade {
     public List<RankingDto> getRankingList(int leagueId) {
         return scoreGoatClient.getRankingList(leagueId);
     }
+
+    public UserRankDto fetchRankingDto(Long userId, int leagueId) {
+        return scoreGoatClient.getRanking(userId, leagueId);
+    }
 }

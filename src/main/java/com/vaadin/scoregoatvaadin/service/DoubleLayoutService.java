@@ -31,10 +31,10 @@ public class DoubleLayoutService {
         save.addClickListener(event -> matchService.saveExecution());
     }
 
-    public VerticalLayout setRightLayout(int leagueId){
+    public VerticalLayout setRightLayout(MainView mainView){
         VerticalLayout predictionLayout;
         try {
-            predictionLayout = userPredictionView.predictionExecution(leagueId);
+            predictionLayout = userPredictionView.predictionExecution(mainView);
         } catch (Exception ex) {
             predictionLayout = new VerticalLayout();
         }
