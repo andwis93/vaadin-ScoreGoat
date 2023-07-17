@@ -6,7 +6,6 @@ import com.vaadin.flow.component.html.Section;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.Messages;
-import com.vaadin.scoregoatvaadin.domain.TeamValues;
 import com.vaadin.scoregoatvaadin.service.elements.TeamDoubleLayoutService;
 import com.vaadin.scoregoatvaadin.view.RankingView;
 import com.vaadin.scoregoatvaadin.view.MainView;
@@ -55,11 +54,7 @@ public class DoubleLayoutService {
         }
         section = new Section(matchLayout);
         Scroller scroller = new Scroller(section);
-        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
-        scroller.getStyle()
-                .set("border-bottom", "1px solid var(--lumo-contrast-20pct)")
-                .set("padding", "var(--lumo-space-m)");
-        scroller.setHeight(TeamValues.EM_55.getValues());
+        team.setLeftLayoutScroller(scroller);
         fixturesLayout.add(scroller, save);
         return fixturesLayout;
     }

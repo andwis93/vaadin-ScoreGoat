@@ -51,7 +51,7 @@ public class ScoreGoatFacade {
         return scoreGoatClient.getRankingList(leagueId);
     }
 
-    public UserRankDto fetchRankingDto(Long userId, int leagueId) {
+    public RankingDto fetchRankingDto(Long userId, int leagueId) {
         return scoreGoatClient.getRanking(userId, leagueId);
     }
 }

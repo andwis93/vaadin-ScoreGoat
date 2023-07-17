@@ -5,8 +5,8 @@ import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.scoregoatvaadin.domain.RankingDto;
 import com.vaadin.scoregoatvaadin.service.RankingService;
-import com.vaadin.scoregoatvaadin.service.UserRankingService;
 import com.vaadin.scoregoatvaadin.view.manager.EmojiManager;
 import com.vaadin.scoregoatvaadin.view.manager.ImageManager;
 import com.vaadin.scoregoatvaadin.view.manager.elements.TeamUserRankView;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class UserRankView extends HorizontalLayout {
     private RankingService rankingService;
-    private UserRankingService userRankingService;
+    private RankingDto rankingDto;
     private MainView mainView;
     private Image img;
     private NativeLabel place = new NativeLabel();
@@ -32,6 +32,7 @@ public class UserRankView extends HorizontalLayout {
     public UserRankView(MainView mainView) {
         this.mainView = mainView;
         this.rankingService = new RankingService(mainView);
+        this.rankingDto = mainView.getFacade().fetchRankingDto(mainView.getUser().getId(), mainView.getLeagueId());
         setLabels();
         add(
                 setUserRankLayout()
@@ -43,8 +44,7 @@ public class UserRankView extends HorizontalLayout {
     }
 
     public HorizontalLayout setUserRankLayout() {
-        setUserRankingService();
-        setRank(userRankingService);
+        setRank(rankingDto);
         HorizontalLayout hl = new HorizontalLayout();
 
         HorizontalLayout hlImg = new HorizontalLayout(img);
@@ -68,14 +68,10 @@ public class UserRankView extends HorizontalLayout {
         return hl;
     }
 
-    private void setUserRankingService() {
-        this.userRankingService = new UserRankingService(mainView);
-    }
-
-    private void setRank(UserRankingService service) {
-        img = imageManager.setIcon(emojiManager.getEmojiList().get(service.getUserRankDto().getRankingDto().getStatus()));
-        place.add(service.getUserRankDto().getRankingDto().getRank() + " / " + service.getUserRankDto().getRankingSize());
-        points.add(service.getUserRankDto().getRankingDto().getPoints());
+    private void setRank(RankingDto rankingDto) {
+        img = imageManager.setIcon(emojiManager.getEmojiList().get(rankingDto.getStatus()));
+        place.add(rankingDto.getRank() + " / " + rankingDto.getLast());
+        points.add(rankingDto.getPoints());
     }
 
     private void setLabels() {

@@ -8,8 +8,7 @@ public class TeamRankingService {
     public void setRightLayout(VerticalLayout layout){
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.getStyle().set("background", TeamValues.DOUBLE_LAYOUT.getValues());
-        layout.setWidth(TeamValues.EM_26.getValues());
-        layout.setHeight(TeamValues.EM_40.getValues());
+        layout.setWidth(TeamValues.EM_35.getValues());
+        layout.setHeight(TeamValues.EM_42.getValues());
     }
-
 }

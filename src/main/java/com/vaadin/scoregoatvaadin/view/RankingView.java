@@ -46,6 +46,8 @@ public class RankingView {
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(RankingDto::getUserName);
         grid.addColumn(createPointsRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" Points").setFlexGrow(0)
                 .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(RankingDto::getPoints);
+        grid.addColumn(createCounterRenderer()).setWidth(TeamValues.EM_12.getValues()).setHeader(" 1st Place Counter").setFlexGrow(0)
+                .setTextAlign(ColumnTextAlign.CENTER).setSortable(true).setComparator(RankingDto::getCounter);
         grid.setSizeUndefined();
         vl.add(imgLayout, grid);
         vl.setSizeFull();
@@ -53,17 +55,17 @@ public class RankingView {
     }
 
     private static final SerializableBiConsumer<Span, RankingDto> createRankingColumn = (
-            span, graduationDto) -> {
+            span, rankingDto) -> {
         String theme = TeamValues.BLACK.getValues();
         if (mainView.getUser() != null) {
-            if (graduationDto.getUserName().equals(mainView.getUser().getName())) {
+            if (rankingDto.getUserName().equals(mainView.getUser().getName())) {
                 theme = TeamValues.LIGHT_BLUE.getValues();
             }
         }
         span.getElement().getStyle().set("color", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
-        span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
-        span.setText(graduationDto.getRank());
+        span.getElement().getStyle().set("font-weight", TeamValues.BOLD.getValues());
+        span.setText(rankingDto.getRank());
     };
 
     private static ComponentRenderer<Span, RankingDto> createRankRenderer() {
@@ -88,20 +90,38 @@ public class RankingView {
     }
 
     private static final SerializableBiConsumer<Span, RankingDto> createPointsColumn = (
-            span, graduationDto) -> {
+            span, rankingDto) -> {
         String theme = TeamValues.BLACK.getValues();;
         if (mainView.getUser() != null) {
-            if (graduationDto.getUserName().equals(mainView.getUser().getName())) {
+            if (rankingDto.getUserName().equals(mainView.getUser().getName())) {
                 theme = TeamValues.LIGHT_BLUE.getValues();
             }
         }
         span.getElement().getStyle().set("color", theme);
         span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
         span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
-        span.setText(graduationDto.getPoints());
+        span.setText(rankingDto.getPoints());
     };
 
     private static ComponentRenderer<Span, RankingDto> createPointsRenderer() {
         return new ComponentRenderer<>(Span::new, createPointsColumn);
+    }
+
+    private static final SerializableBiConsumer<Span, RankingDto> createCounterColumn = (
+            span, rankingDto) -> {
+        String theme = TeamValues.BLACK.getValues();;
+        if (mainView.getUser() != null) {
+            if (rankingDto.getUserName().equals(mainView.getUser().getName())) {
+                theme = TeamValues.LIGHT_BLUE.getValues();
+            }
+        }
+        span.getElement().getStyle().set("color", theme);
+        span.getElement().getStyle().set("font-size", TeamValues.PX_18.getValues());
+        span.getElement().getStyle().set("font-weight", TeamValues.NORMAL.getValues());
+        span.setText(Integer.toString(rankingDto.getCounter()));
+    };
+
+    private static ComponentRenderer<Span, RankingDto> createCounterRenderer() {
+        return new ComponentRenderer<>(Span::new, createCounterColumn);
     }
 }

@@ -2,6 +2,7 @@ package com.vaadin.scoregoatvaadin.service.elements;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.scoregoatvaadin.domain.TeamValues;
 
@@ -26,5 +27,13 @@ public class TeamDoubleLayoutService {
         layout.getStyle().set("background", TeamValues.DOUBLE_LAYOUT.getValues());
         layout.setHeight("100%");
         layout.setWidth("60%");
+    }
+
+    public void setLeftLayoutScroller(Scroller scroller) {
+        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
+        scroller.getStyle()
+                .set("border-bottom", "1px solid var(--lumo-contrast-20pct)")
+                .set("padding", "var(--lumo-space-m)");
+        scroller.setHeight(TeamValues.EM_55.getValues());
     }
 }
