@@ -54,4 +54,13 @@ public class TeamLogInView {
         button.getStyle().set("font-size", TeamValues.PX_14.getValues());
         button.getStyle().set("cursor", TeamValues.POINTER.getValues());
     }
+
+    public void setResetPasswordBtn(Button button) {
+        button.setWidth(TeamValues.EM_21.getValues());
+        button.setHeight(TeamValues.EM_2_5.getValues());
+        button.getStyle().set("color", TeamValues.BLACK.getValues());
+        button.getStyle().set("background", TeamValues.DARK_SALMON.getValues());
+        button.getStyle().set("font-size", TeamValues.PX_12.getValues());
+        button.getStyle().set("cursor", TeamValues.POINTER.getValues());
+    }
 }

@@ -18,6 +18,7 @@ public enum Messages {
     SAVE_PREDICTIONS_BAD("Something Went Wrong - couldn't save predictions"),
     FILL_ALL_FIELDS("Please, fill in all fields correctly"),
     LOG_IN_BAD("Error. Couldn't log in user"),
+    PASSWORD_RESET_ERROR("Something went wrong. Couldn't reset password"),
     USER_DELETED_OK("User was deleted successfully");
 
     private final String message;

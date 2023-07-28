@@ -54,6 +54,9 @@ public class UserView extends VerticalLayout {
         team.setGeneraNotEnableBtn(yourAccount);
         yourAccount.setEnabled(false);
         mainView.setUser(null);
+        mainView.getDoubleLayout().removeAll();
+        mainView.getMatchList().getMatchList().clear();
+        mainView.getMatchList().setLeagueId(0);
     }
 
     public void logButtonExecute() {

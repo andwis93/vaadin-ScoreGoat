@@ -54,14 +54,19 @@ public class MatchService {
             PredictionDto predictionDto = new PredictionDto(mainView.getUser().getId(), mainView.getMatchList().getLeagueId(),
                     mainView.getMatchList().getMatchList());
             NotificationRespond respond = mainView.getFacade().saveUserPredictions(predictionDto);
-            mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
-            if(respond.getType().equals(NotificationTypes.SUCCESS.getType())) {
-                notification.good(respond.getMessage());
+            if (respond.isLoggedIn()) {
+                mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
+                if (respond.getType().equals(NotificationTypes.SUCCESS.getType())) {
+                    notification.good(respond.getMessage());
+                } else {
+                    notification.bad(respond.getMessage());
+                }
             } else {
-                notification.bad(respond.getMessage());
+                mainView.getLeftBar().getUserView().logOutExecute();
             }
-        } else {
-            notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
+            } else {
+                notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());
+
         }
     }
 }

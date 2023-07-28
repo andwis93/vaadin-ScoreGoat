@@ -62,6 +62,30 @@ public class ScoreGoatClient {
         }
     }
 
+    private URI createUriForResetPassword(String emailOrName) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/users/passwordreset")
+                .queryParam("emailOrName", emailOrName)
+                .build().encode().toUri();
+    }
+
+    private HttpEntity<String> entityForResetPassword(String emailOrName) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        return new HttpEntity<String>(emailOrName, headers);
+    }
+
+    public NotificationRespond resetPassword(String emailOrName){
+        try {
+            ResponseEntity<NotificationRespond> response = restTemplate.exchange(createUriForResetPassword(emailOrName),
+                    HttpMethod.PUT, entityForResetPassword(emailOrName), NotificationRespond.class);
+            return response.getBody();
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new NotificationRespond(Messages.PASSWORD_RESET_ERROR.getMessage(), NotificationTypes.ERROR.getType(), false);
+        }
+    }
+
     private URI createUriForAccountChange() {
         return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
                         "/users/accountchange")
@@ -111,7 +135,7 @@ public class ScoreGoatClient {
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return new NotificationRespond(Messages.SAVE_PREDICTIONS_BAD.getMessage(),
-                    NotificationVariant.LUMO_ERROR.getVariantName());
+                    NotificationVariant.LUMO_ERROR.getVariantName(), false);
         }
     }
     private URI createUriForUserPredictions(Long userId, int leagueId) {

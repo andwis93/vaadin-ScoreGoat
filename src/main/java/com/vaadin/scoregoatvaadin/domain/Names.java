@@ -12,6 +12,7 @@ public enum Names {
     LOG_IN("Log in"),
     LOG_OUT("Log out"),
     SIGN_UP("Sign Up"),
+    RESET_PASSWORD("Reset Password"),
     NAME_TEXT_FIELD("User Name or Email"),
     PASSWORD("Password"),
     CANCEL("Cancel"),

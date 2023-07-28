@@ -17,6 +17,7 @@ public class LogInView extends VerticalLayout {
     private final Button logIn = new Button(Names.LOG_IN.getValue());
     private final Button cancel = new Button(Names.CANCEL.getValue());
     private final Button signUp = new Button(Names.SIGN_UP.getValue());
+    private final Button resetPassword = new Button(Names.RESET_PASSWORD.getValue());
     private final TeamLogInView team = new TeamLogInView();
     private final UserManager userManager = new UserManager();
     private final LeftBarView leftBarView;
@@ -41,6 +42,9 @@ public class LogInView extends VerticalLayout {
             mainView.getLeftBar().getAccountLayout().remove(this);
             mainView.getLeftBar().getAccountLayout().add(mainView.setSignUpView());
         });
+        resetPassword.addClickListener(event -> {
+            resetPasswordExecution();
+        });
     }
 
     private void logIn(){
@@ -61,6 +65,24 @@ public class LogInView extends VerticalLayout {
         }
     }
 
+    private void resetPasswordExecution() {
+        NotificationService notification = new NotificationService();
+        if (!Objects.equals(name.getValue(), "")) {
+            NotificationRespond respond = mainView.getFacade().resetPassword(name.getValue());
+            if (respond.getType().equals(NotificationTypes.SUCCESS.getType())) {
+                notification.good(respond.getMessage());
+            } else {
+                if (respond.getType().equals(NotificationTypes.ERROR.getType())) {
+                    notification.bad(respond.getMessage());
+                } else {
+                    notification.neutral(respond.getMessage());
+                }
+            }
+        } else {
+            notification.neutral(Messages.FILL_ALL_FIELDS.getMessage());
+        }
+    }
+
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
         team.setText(name);
@@ -68,6 +90,7 @@ public class LogInView extends VerticalLayout {
         team.setAcceptBtn(logIn);
         team.setCloseBtn(cancel);
         team.setAcceptBtn(signUp);
+        team.setResetPasswordBtn(resetPassword);
         logIn.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         vl.add(
@@ -75,7 +98,8 @@ public class LogInView extends VerticalLayout {
                 password,
                 logIn,
                 cancel,
-                signUp
+                signUp,
+                resetPassword
         );
         team.setSecondaryLayout(vl);
         return vl;

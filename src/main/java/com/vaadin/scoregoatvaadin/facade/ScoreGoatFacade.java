@@ -54,4 +54,8 @@ public class ScoreGoatFacade {
     public RankingDto fetchRankingDto(Long userId, int leagueId) {
         return scoreGoatClient.getRanking(userId, leagueId);
     }
+
+    public NotificationRespond resetPassword(String emailOrName) {
+        return scoreGoatClient.resetPassword(emailOrName);
+    }
 }
