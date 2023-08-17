@@ -34,13 +34,13 @@ public class UserView extends VerticalLayout {
 
         logButton.addClickListener(event -> {
             removeViews();
-            mainView.getLeftBar().getAccountLayout().remove(mainView.getChangePasswordView());
+            mainView.getLeftBarView().getAccountLayout().remove(mainView.getChangePasswordView());
             logButtonExecute();
         });
 
         yourAccount.addClickListener(event -> {
             removeViews();
-            mainView.getLeftBar().getAccountLayout().add(mainView.setAccountView());
+            mainView.getLeftBarView().getAccountLayout().add(mainView.setAccountView());
             mainView.getAccountView().getName().setValue(mainView.getUser().getName());
             mainView.getAccountView().getEmail().setValue(mainView.getUser().getEmail());
 
@@ -55,7 +55,7 @@ public class UserView extends VerticalLayout {
         yourAccount.setEnabled(false);
         mainView.setUser(null);
         mainView.getDoubleLayout().removeAll();
-        mainView.getMatchList().getMatchList().clear();
+        mainView.getMatchList().setMatchList(null);
         mainView.getMatchList().setLeagueId(0);
     }
 
@@ -63,15 +63,15 @@ public class UserView extends VerticalLayout {
         if (logButton.getText().equals(Names.LOG_IN.getValue())) {
             mainView.setLogInView();
             mainView.getLoginView().logInExecute();
-            mainView.getLeftBar().add(mainView.getLeftBar().getAccountLayout());
+            mainView.getLeftBarView().add(mainView.getLeftBarView().getAccountLayout());
         } else {
             logOutExecute();
         }
     }
     private void removeViews() {
-        mainView.getLeftBar().getAccountLayout().remove(mainView.getLoginView());
-        mainView.getLeftBar().getAccountLayout().remove(mainView.getSignUpView());
-        mainView.getLeftBar().getAccountLayout().remove(mainView.getAccountView());
-        mainView.getLeftBar().getAccountLayout().remove(mainView.getChangePasswordView());
+        mainView.getLeftBarView().getAccountLayout().remove(mainView.getLoginView());
+        mainView.getLeftBarView().getAccountLayout().remove(mainView.getSignUpView());
+        mainView.getLeftBarView().getAccountLayout().remove(mainView.getAccountView());
+        mainView.getLeftBarView().getAccountLayout().remove(mainView.getChangePasswordView());
     }
 }

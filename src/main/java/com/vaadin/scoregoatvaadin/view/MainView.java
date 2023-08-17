@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class MainView extends HorizontalLayout {
     private final ScoreGoatFacade facade;
     private final TeamMainView team = new TeamMainView();
-    private final LeftBarView leftBar = new LeftBarView(this);
+    private final LeftBarView leftBarView = new LeftBarView(this);
     private final HorizontalLayout toolbar = new HorizontalLayout();
     private final DoubleLayout doubleLayout = new DoubleLayout(this);
     private final VerticalLayout mainContent = new VerticalLayout();
@@ -36,7 +36,7 @@ public class MainView extends HorizontalLayout {
         setSizeFull();
         setSpacing(false);
         add(
-                leftBar,
+                leftBarView,
                 setMainContent()
         );
         this.facade = facade;

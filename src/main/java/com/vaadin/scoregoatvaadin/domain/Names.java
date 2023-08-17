@@ -19,6 +19,7 @@ public enum Names {
     OLD_PASSWORD("Old Password"),
     NEW_PASSWORD("New Password"),
     REPEAT_PASSWORD("Repeat Password"),
+    VERIFICATION_CODE("Verification Code"),
     ACCEPT("OK"),
     CLOSE("Close"),
     UPDATE("Update"),

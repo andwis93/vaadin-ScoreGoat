@@ -19,6 +19,10 @@ public class ScoreGoatFacade {
         return scoreGoatClient.createUser(userDto);
     }
 
+    public UserRespondDto userVerification(String userName, String email){
+        return scoreGoatClient.userVerification(userName, email);
+    }
+
     public UserRespondDto logIn(UserDto userDto) {
         return scoreGoatClient.logIn(userDto);
     }
@@ -57,5 +61,9 @@ public class ScoreGoatFacade {
 
     public NotificationRespond resetPassword(String emailOrName) {
         return scoreGoatClient.resetPassword(emailOrName);
+    }
+
+    public String getEmailVerificationCode(String email){
+        return scoreGoatClient.getEmailVerificationCode(email);
     }
 }

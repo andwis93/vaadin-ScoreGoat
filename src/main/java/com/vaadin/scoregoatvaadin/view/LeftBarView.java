@@ -18,6 +18,7 @@ import lombok.Setter;
 public class LeftBarView extends HorizontalLayout{
     private final MainView mainView;
     private final UserView userView;
+    private EmailVerificationView emailVerificationView;
     private final HorizontalLayout accountLayout = new HorizontalLayout();
     private ImageManager image = new ImageManager();
     private DoubleLayoutService doubleLayoutService;

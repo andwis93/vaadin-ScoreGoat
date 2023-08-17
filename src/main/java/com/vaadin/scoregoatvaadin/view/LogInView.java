@@ -21,12 +21,14 @@ public class LogInView extends VerticalLayout {
     private final TeamLogInView team = new TeamLogInView();
     private final UserManager userManager = new UserManager();
     private final LeftBarView leftBarView;
+
     private final MainView mainView;
+
 
 
     public LogInView(MainView mainView) {
         this.mainView = mainView;
-        this.leftBarView = mainView.getLeftBar();
+        this.leftBarView = mainView.getLeftBarView();
         setSizeUndefined();
         team.setMainLayout(this);
 
@@ -37,10 +39,10 @@ public class LogInView extends VerticalLayout {
         logIn.addClickListener(event -> {
             logIn();
         });
-        cancel.addClickListener(event -> mainView.getLeftBar().remove(mainView.getLeftBar().getAccountLayout()));
+        cancel.addClickListener(event -> mainView.getLeftBarView().remove(mainView.getLeftBarView().getAccountLayout()));
         signUp.addClickListener(event -> {
-            mainView.getLeftBar().getAccountLayout().remove(this);
-            mainView.getLeftBar().getAccountLayout().add(mainView.setSignUpView());
+            mainView.getLeftBarView().getAccountLayout().remove(this);
+            mainView.getLeftBarView().getAccountLayout().add(mainView.setSignUpView());
         });
         resetPassword.addClickListener(event -> {
             resetPasswordExecution();
@@ -108,7 +110,7 @@ public class LogInView extends VerticalLayout {
     private void logInExecution(UserRespondDto respond) {
         NotificationService notification = new NotificationService();
         mainView.setUser(userManager.setUser(respond));
-        mainView.getLeftBar().getAccountLayout().remove(this);
+        mainView.getLeftBarView().getAccountLayout().remove(this);
         mainView.getDoubleLayout().removeAll();
         leftBarView.getUserView().getUserLabel().setText(respond.getUserName());
         leftBarView.getUserView().getLogButton().setText(Names.LOG_OUT.getValue());
@@ -119,7 +121,7 @@ public class LogInView extends VerticalLayout {
     }
 
     public void logInExecute() {
-        mainView.getLeftBar().getAccountLayout().add(setLogInView());
+        mainView.getLeftBarView().getAccountLayout().add(setLogInView());
     }
 
     public LogInView setLogInView() {

@@ -21,6 +21,7 @@ public class SignUpView extends VerticalLayout {
     private final Button create = new Button(Names.SIGN_UP.getValue());
     private final Button close = new Button(Names.CLOSE.getValue());
     private final TeamSignUpView team = new TeamSignUpView();
+    private EmailVerificationView emailVerificationView;
     private final MainView mainView;
 
 
@@ -31,7 +32,7 @@ public class SignUpView extends VerticalLayout {
         team.setMineLayout(this);
 
         create.addClickListener(event -> signIn());
-        close.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
+        close.addClickListener(event -> mainView.getLeftBarView().getAccountLayout().remove(this));
 
         add(
                 setElements()
@@ -59,26 +60,20 @@ public class SignUpView extends VerticalLayout {
 
     public void signIn(){
         NotificationService notification = new NotificationService();
-        if (password.getValue().equals(repeatPassword.getValue())) {
-            UserDto userDto = new UserDto(name.getValue(), email.getValue(), password.getValue());
-            UserRespondDto respond = mainView.getFacade().signUp(userDto);
-            if (respond != null) {
-                if (respond.isLogIn()) {
-                    signInExecute(respond);
-                } else {
-                    notification.bad(respond.getRespond());
-                }
+        UserRespondDto userRespondDto = mainView.getFacade().userVerification(name.getValue(), email.getValue());
+        if (userRespondDto.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
+            if (password.getValue().equals(repeatPassword.getValue())) {
+                this.emailVerificationView = new EmailVerificationView(mainView);
+                emailVerificationView.getEmailVerification().setUserDto(new UserDto(name.getValue(), email.getValue(), password.getValue()));
+                emailVerificationView.getEmailVerification().setCode(mainView.getFacade().getEmailVerificationCode(email.getValue()));
+                mainView.getLeftBarView().add(emailVerificationView);
+                mainView.getLeftBarView().getAccountLayout().remove(this);
+                notification.good(Messages.CODE_INFO.getMessage());
             }else {
-                notification.bad(Messages.SIGN_UP_USER_NOT_CREATED.getMessage());
+                notification.bad(Messages.SIGN_UP_PASSWORD_DIFFERENT.getMessage());
             }
-        }else {
-            notification.bad(Messages.SIGN_UP_PASSWORD_DIFFERENT.getMessage());
+        } else {
+            notification.bad(userRespondDto.getRespond());
         }
-    }
-
-    private void signInExecute(UserRespondDto respond){
-        NotificationService notification = new NotificationService();
-        notification.good(respond.getRespond());
-        mainView.getLeftBar().getAccountLayout().remove(this);
     }
 }

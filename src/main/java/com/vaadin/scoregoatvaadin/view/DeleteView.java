@@ -27,7 +27,7 @@ public class DeleteView extends VerticalLayout {
                 setElements()
         );
         accept.addClickListener(event -> deleteUser());
-        cancel.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
+        cancel.addClickListener(event -> mainView.getLeftBarView().getAccountLayout().remove(this));
     }
     private VerticalLayout setElements() {
         VerticalLayout vl = new VerticalLayout();
@@ -55,7 +55,7 @@ public class DeleteView extends VerticalLayout {
             if (respond.getNotificationType().equals(NotificationTypes.SUCCESS.getType())) {
                 deleteUserExecution();
                 notification.good(respond.getRespond());
-                mainView.getLeftBar().getUserView().logOutExecute();
+                mainView.getLeftBarView().getUserView().logOutExecute();
             } else {
                 if (respond.getNotificationType().equals(NotificationTypes.ERROR.getType())) {
                     notification.bad(respond.getRespond());
@@ -69,8 +69,6 @@ public class DeleteView extends VerticalLayout {
     }
 
     private void deleteUserExecution() {
-        NotificationService notification = new NotificationService();
-        notification.good(Messages.USER_DELETED_OK.getMessage());
-        mainView.getLeftBar().getAccountLayout().remove(this);
+        mainView.getLeftBarView().getAccountLayout().remove(this);
     }
 }

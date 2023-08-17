@@ -55,14 +55,14 @@ public class MatchService {
                     mainView.getMatchList().getMatchList());
             NotificationRespond respond = mainView.getFacade().saveUserPredictions(predictionDto);
             if (respond.isLoggedIn()) {
-                mainView.getLeftBar().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
+                mainView.getLeftBarView().leagueButtonClick(mainView.getMatchList().getLeagueId(), mainView.getDoubleLayout());
                 if (respond.getType().equals(NotificationTypes.SUCCESS.getType())) {
                     notification.good(respond.getMessage());
                 } else {
                     notification.bad(respond.getMessage());
                 }
             } else {
-                mainView.getLeftBar().getUserView().logOutExecute();
+                mainView.getLeftBarView().getUserView().logOutExecute();
             }
             } else {
                 notification.bad(Messages.SAVE_EXECUTION_NOT_SAVE.getMessage());

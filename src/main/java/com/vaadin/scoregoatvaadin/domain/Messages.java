@@ -19,7 +19,10 @@ public enum Messages {
     FILL_ALL_FIELDS("Please, fill in all fields correctly"),
     LOG_IN_BAD("Error. Couldn't log in user"),
     PASSWORD_RESET_ERROR("Something went wrong. Couldn't reset password"),
-    USER_DELETED_OK("User was deleted successfully");
+    USER_DELETED_OK("User was deleted successfully"),
+    CODE_INFO("Verification Code was sent to your email"),
+    TOO_MANY_ATTEMPTS("There was too many code confirmation attempts"),
+    CODE_DIFFERENT("Provided code is not correct");
 
     private final String message;
 }

@@ -52,6 +52,23 @@ public class ScoreGoatClient {
         }
     }
 
+    private URI createUriForUserVerification(String userName, String email) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/users/verify")
+                .queryParam("userName", userName)
+                .queryParam("email", email)
+                .build().encode().toUri();
+    }
+
+    public UserRespondDto userVerification(String userName, String email){
+        try {
+            return restTemplate.getForObject(createUriForUserVerification(userName, email), UserRespondDto.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
     public boolean changePassword(PasswordDto passwordDto){
         try {
             restTemplate.put(createUri() + "/users/passwordchange", passwordDto);
@@ -214,6 +231,22 @@ public class ScoreGoatClient {
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return new RankingDto("", "", "",0,0,0);
+        }
+    }
+
+    private URI createUriForEmailVerificationCode(String email) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfig.getScoreGoatApiEndpoint() +
+                        "/users")
+                .queryParam("email", email)
+                .build().encode().toUri();
+    }
+
+    public String getEmailVerificationCode(String email){
+        try {
+            return restTemplate.getForObject(createUriForEmailVerificationCode(email), String.class);
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
         }
     }
 }

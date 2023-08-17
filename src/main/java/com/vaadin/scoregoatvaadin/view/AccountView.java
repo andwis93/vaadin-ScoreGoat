@@ -40,18 +40,18 @@ public class AccountView extends VerticalLayout {
         update.addClickListener(event -> updateExecute());
         accept.addClickListener(event -> acceptExecution());
         changePassword.addClickListener(event -> changePasswordExecute());
-        close.addClickListener(event -> mainView.getLeftBar().getAccountLayout().remove(this));
+        close.addClickListener(event -> mainView.getLeftBarView().getAccountLayout().remove(this));
         delete.addClickListener(event -> deleteExecution());
     }
 
     private void changePasswordExecute() {
-        mainView.getLeftBar().getAccountLayout().remove(this);
-        mainView.getLeftBar().getAccountLayout().add(mainView.setChangePasswordView());
+        mainView.getLeftBarView().getAccountLayout().remove(this);
+        mainView.getLeftBarView().getAccountLayout().add(mainView.setChangePasswordView());
     }
 
     private void deleteExecution() {
-        mainView.getLeftBar().getAccountLayout().remove(this);
-        mainView.getLeftBar().getAccountLayout().add(mainView.setDeleteView());
+        mainView.getLeftBarView().getAccountLayout().remove(this);
+        mainView.getLeftBarView().getAccountLayout().add(mainView.setDeleteView());
     }
 
     private VerticalLayout setElements() {
@@ -105,7 +105,7 @@ public class AccountView extends VerticalLayout {
         accountDto.setPassword(password.getValue());
 
         UserRespondDto respond = mainView.getFacade().changeAccountValues(accountDto);
-        mainView.getLeftBar().getUserView().getUserLabel().setText(accountDto.getUserName());
+        mainView.getLeftBarView().getUserView().getUserLabel().setText(accountDto.getUserName());
         mainView.getUser().setName(accountDto.getUserName());
         mainView.getUser().setEmail(accountDto.getEmail());
         mainView.getUser().setId(accountDto.getUserId());
@@ -134,7 +134,7 @@ public class AccountView extends VerticalLayout {
 
     public void acceptExecution(){
         NotificationService notification = new NotificationService();
-        mainView.getLeftBar().getAccountLayout().add(setAccountView());
+        mainView.getLeftBarView().getAccountLayout().add(setAccountView());
         if (mainView.getUser().getId() != null) {
             if (!name.getValue().equals("") && !email.getValue().equals("") && !password.getValue().equals("")) {
                 changeExecution();
